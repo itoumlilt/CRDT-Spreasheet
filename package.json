@@ -1,6 +1,9 @@
 {
-  "name": "concordant-webclient",
-  "version": "0.1.0",
+  "name": "concordant-labbook",
+  "version": "0.2.0",
+  "license": "MIT",
+  "author": "Ilyas Toumlilt <ilyas.toumlilt@concordant.io>",
+  "description": "BASF Demo app. A master app that puts together the Spreadsheet and Notepad.",
   "homepage": "/",
   "private": true,
   "scripts": {
@@ -9,6 +12,13 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "pretty-quick": "pretty-quick"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@gitlab.inria.fr/concordant/software/c-labbook.git"
+  },
+  "bugs": {
+    "url": "https://gitlab.inria.fr/concordant/software/c-labbook/-/issues"
   },
   "eslintConfig": {
     "extends": "react-app"
