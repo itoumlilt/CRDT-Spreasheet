@@ -37,8 +37,9 @@ export interface ConcordantWysiwygEditorState {
   timestamp: number;
 }
 
-const SERVER_URL: string = "http://localhost:4567/json";
-//const SERVER_URL: string = "https://labbook.concordant.io/c-service-notepad/json";
+//const SERVER_URL: string = "http://localhost:4567/json";
+const SERVER_URL: string =
+  "https://labbook.concordant.io/c-service-notepad/json";
 
 export default class ConcordantWysiwygEditor extends Component<
   ConcordantWysiwygEditorProps,
