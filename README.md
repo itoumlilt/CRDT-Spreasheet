@@ -25,7 +25,7 @@ For the next steps, you will need the following software:
 - Make sure you have the latest version of Node.js: [see official installation guide](https://nodejs.org/en/download/);
 - The project uses Git to download some required dependencies: [follow the official install guide](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 
-  1.**Install Project dependencies**
+1.**Install Project dependencies**
 
 Go to project root directory and:
 
@@ -39,6 +39,24 @@ npm install
 ```shell
 npm start
 ```
+
+3.**Build for server production-ready deployment**
+
+```shell
+npm install
+
+# and enable CORS in CouchDB using the fetched script
+# If your CouchDB instance is password protected, use -u <user> -p <password> options:
+node node_modules/add-cors-to-couchdb/bin.js
+
+# Then build the app using:
+REACT_APP_SERVERURL="http://${MY_SERVER_ADDR}:5984/${MY_DBNAME}" \
+REACT_APP_OFFLINE_FIRST=any \
+npm run build
+# Note: REACT_APP_OFFLINE_FIRST=any Enables Service Workers to run application offline
+```
+
+The `build` directory will now contain a static JS you can deploy in your server.
 
 ## Replication support
 
