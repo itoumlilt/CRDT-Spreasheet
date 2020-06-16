@@ -1,18 +1,18 @@
 /**
  * MIT License
- * 
+ *
  * Copyright (c) 2020, Concordant and contributors
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import React, {Component} from "react";
+import React, { Component } from "react";
 import JoditEditor from "jodit-react";
 
 export interface ConcordantWysiwygEditorProps {
@@ -37,7 +37,8 @@ export interface ConcordantWysiwygEditorState {
 }
 
 //const SERVER_URL: string = "http://localhost:4567/json";
-const SERVER_URL: string = "https://labbook.concordant.io/c-service-notepad/json";
+const SERVER_URL: string =
+  "https://labbook.concordant.io/c-service-notepad/json";
 
 export default class ConcordantWysiwygEditor extends Component<
   ConcordantWysiwygEditorProps,
@@ -58,12 +59,12 @@ export default class ConcordantWysiwygEditor extends Component<
       config: {
         readonly: false,
         allowResizeY: true,
-        height: "100%",
+        height: "100%"
       },
       value: this.value,
       spin: 1,
       uid: -1,
-      timestamp: 0,
+      timestamp: 0
     };
 
     this.readText();
@@ -73,7 +74,12 @@ export default class ConcordantWysiwygEditor extends Component<
     this.readText();
   }
 
-  private writeInterval(url: string, content: string, uid: number, timestamp: number) {
+  private writeInterval(
+    url: string,
+    content: string,
+    uid: number,
+    timestamp: number
+  ) {
     clearInterval(this.interval);
     this.updateRequest(url, content, uid, timestamp);
     this.interval = setInterval(() => this.tick(), 1000);
@@ -97,17 +103,18 @@ export default class ConcordantWysiwygEditor extends Component<
         if (this.status === 200) {
           resolve(this.response);
         } else {
-          reject(new Error(this.statusText));
+          // reject(new Error(this.statusText));
+          console.log("[INIT]XMLHttpRequest onload Error: " + this.statusText);
         }
       };
       request.onerror = function() {
         //reject(new Error('XMLHttpRequest Error: ' + this.statusText));
-        console.log("XMLHttpRequest Error: " + this.statusText);
+        console.log("[INIT] XMLHttpRequest onerror Error: " + this.statusText);
       };
       request.open("POST", url + "/init");
       request.setRequestHeader("Content-Type", "application/json");
       const req = {
-        uid: init_uid,
+        uid: init_uid
       };
       request.send(JSON.stringify(req));
     });
@@ -120,22 +127,29 @@ export default class ConcordantWysiwygEditor extends Component<
         if (this.status === 200) {
           resolve(this.response);
         } else {
-          reject(new Error(this.statusText));
+          // reject(new Error(this.statusText));
+          console.log("[GET]XMLHttpRequest onload Error: " + this.statusText);
         }
       };
       request.onerror = function() {
-        reject(new Error("XMLHttpRequest Error: " + this.statusText));
+        // reject(new Error(this.statusText));
+        console.log("[GET]XMLHttpRequest onerror Error: " + this.statusText);
       };
       request.open("POST", url + "/get");
       request.setRequestHeader("Content-Type", "application/json");
       const req = {
-        uid: uid,
+        uid: uid
       };
       request.send(JSON.stringify(req));
     });
   }
 
-  private updateRequest(url: string, content: string, uid: number, timestamp: number): Promise<any> {
+  private updateRequest(
+    url: string,
+    content: string,
+    uid: number,
+    timestamp: number
+  ): Promise<any> {
     return new Promise<any>(function(resolve, reject) {
       const request = new XMLHttpRequest();
       request.onload = function() {
@@ -143,19 +157,19 @@ export default class ConcordantWysiwygEditor extends Component<
           resolve(this.response);
         } else {
           //reject(new Error(this.statusText));
-          console.log("[UPDATE][ERROR]" + this.response);
+          console.log("[UPDATE]XMLHttpRequest onload Error: " + this.response);
         }
       };
       request.onerror = function() {
         //reject(new Error('XMLHttpRequest Error: ' + this.statusText));
-        console.log("XMLHttpRequest Error: " + this.statusText);
+        console.log("[UPDATE]XMLHttpRequest onerror Error: " + this.statusText);
       };
       request.open("POST", url + "/update");
       request.setRequestHeader("Content-Type", "application/json");
       const req = {
         value: content,
         uid: uid,
-        timestamp: timestamp,
+        timestamp: timestamp
       };
       request.send(JSON.stringify(req));
     });
@@ -168,12 +182,15 @@ export default class ConcordantWysiwygEditor extends Component<
       config: prevState.config,
       value: text,
       spin: prevState.spin,
-      timestamp: timestamp,
+      timestamp: timestamp
     });
 
     // No read when the user is writing to the interface
     clearInterval(this.interval);
-    this.interval = setInterval(() => this.writeInterval(SERVER_URL, text, prevState.uid, timestamp), 5000);
+    this.interval = setInterval(
+      () => this.writeInterval(SERVER_URL, text, prevState.uid, timestamp),
+      5000
+    );
     //this.updateRequest(SERVER_URL, text, prevState.uid, timestamp);
   }
 
@@ -181,13 +198,12 @@ export default class ConcordantWysiwygEditor extends Component<
     const prevState = this.state;
     this.getRequest(SERVER_URL, prevState.uid)
       .then(response => {
-        console.log(response);
         const jsonResponseParsed = JSON.parse(response);
         if (jsonResponseParsed["last_timestamp"] >= this.state.timestamp) {
           this.setState({
             config: prevState.config,
             value: jsonResponseParsed["value"],
-            spin: prevState.spin,
+            spin: prevState.spin
           });
         }
       })
@@ -200,14 +216,13 @@ export default class ConcordantWysiwygEditor extends Component<
     const prevState = this.state;
     this.initRequest(SERVER_URL, this.state.uid)
       .then(response => {
-        console.log(response);
         const jsonResponseParsed = JSON.parse(response);
         this.setState({
           config: prevState.config,
           value: jsonResponseParsed["value"],
           spin: prevState.spin,
           uid: jsonResponseParsed["uid"],
-          timestamp: prevState.timestamp + 1,
+          timestamp: prevState.timestamp + 1
         });
       })
       .catch(error => {
@@ -222,7 +237,11 @@ export default class ConcordantWysiwygEditor extends Component<
   render() {
     const editor = (
       <div id="ced">
-        <JoditEditor value={this.state.value} config={this.state.config} onChange={this.valueChanged.bind(this)} />
+        <JoditEditor
+          value={this.state.value}
+          config={this.state.config}
+          onChange={this.valueChanged.bind(this)}
+        />
       </div>
     );
 
