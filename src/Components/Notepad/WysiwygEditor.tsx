@@ -21,8 +21,9 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import React, { Component } from "react";
 import JoditEditor from "jodit-react";
+import React, { Component } from "react";
+import { notepadContainerStyle } from "../Common/Styles/NotepadStyle";
 
 export interface ConcordantWysiwygEditorProps {
   value?: string;
@@ -36,19 +37,14 @@ export interface ConcordantWysiwygEditorState {
   timestamp: number;
 }
 
-//const SERVER_URL: string = "http://localhost:4567/json";
-const SERVER_URL: string =
-  "https://labbook.concordant.io/c-service-notepad/json";
+const SERVER_URL: string = "http://localhost:4567/json";
+//const SERVER_URL: string = "https://labbook.concordant.io/c-service-notepad/json";
 
 export default class ConcordantWysiwygEditor extends Component<
   ConcordantWysiwygEditorProps,
   ConcordantWysiwygEditorState
 > {
-  private myRef = React.createRef<HTMLInputElement>();
-
   private value: string = "Connecting to C-Service...";
-
-  private request = require("request");
 
   private interval: any;
 
@@ -59,7 +55,11 @@ export default class ConcordantWysiwygEditor extends Component<
       config: {
         readonly: false,
         allowResizeY: true,
-        height: "auto"
+        height: "auto",
+        minHeight: 1000,
+        placeholder: "Welcome to C-Notepad | Start typing text ...",
+        buttons:
+          "source,|,bold,strikethrough,underline,italic,eraser,|,superscript,subscript,|,ul,ol,|,outdent,indent,|,font,fontsize,brush,paragraph,|,image,file,table,link,|,align,undo,redo,\n,selectall,cut,copy,paste,copyformat,|,hr,symbol,fullsize,print"
       },
       value: this.value,
       spin: 1,
@@ -236,7 +236,7 @@ export default class ConcordantWysiwygEditor extends Component<
 
   render() {
     const editor = (
-      <div id="ced">
+      <div id="ced" style={notepadContainerStyle}>
         <JoditEditor
           value={this.state.value}
           config={this.state.config}
