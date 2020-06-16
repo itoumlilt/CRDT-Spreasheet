@@ -59,7 +59,7 @@ export default class ConcordantWysiwygEditor extends Component<
       config: {
         readonly: false,
         allowResizeY: true,
-        height: "100%"
+        height: "auto"
       },
       value: this.value,
       spin: 1,
