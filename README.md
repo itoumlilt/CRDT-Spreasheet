@@ -1,6 +1,6 @@
 # Concordant Labbook
 
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![License](https://img.shields.io/badge/license-MIT-green)](https://opensource.org/licenses/MIT)
 
 This demo shows a collaborative application developed using a draft implementation
 of the Concordant API. The application uses the C-Server API (it will be
