@@ -1,18 +1,18 @@
 /**
  * MIT License
- * 
+ *
  * Copyright (c) 2020, Concordant and contributors
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -21,12 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import {GOMapCRDT} from "concordant-crdtlib";
+import { GOMapCRDT } from "concordant-crdtlib";
 import _ from "lodash"; // TODO: Get rid of this dependency
 import SpreadSheet from "../../../Model/SpreadSheet";
 import SpreadSheetView from "../../../Model/SpreadSheetView";
-import {SpreadSheetActionTypes} from "../Actions/SpreadSheetActions";
-import {ISpreadSheetState} from "../Types/AppTypes";
+import { SpreadSheetActionTypes } from "../Actions/SpreadSheetActions";
+import { ISpreadSheetState } from "../Types/AppTypes";
 import {
   ACTIVATE_CELL,
   ADD_COLUMN,
@@ -38,7 +38,7 @@ import {
   ICellInput,
   INCREASE_PRECISION,
   SPREADSHEET_SUBSCRIPTION,
-  UPDATE_SHEET,
+  UPDATE_SHEET
 } from "../Types/SpreadSheetTypes";
 
 interface IInternalState extends ISpreadSheetState {
@@ -47,14 +47,19 @@ interface IInternalState extends ISpreadSheetState {
 
 const initialState: IInternalState = {
   spreadSheet: undefined,
-  spreadSheetView: new SpreadSheetView(),
+  spreadSheetView: new SpreadSheetView()
 };
 
 // TODO: avoid copying spreadSheetView.
 // TODO: Should have an intermediate state before and after mutating the database
-export function SpreadSheetReducer(state = initialState, action: SpreadSheetActionTypes): IInternalState {
+export function SpreadSheetReducer(
+  state = initialState,
+  action: SpreadSheetActionTypes
+): IInternalState {
   const emptyOrCloneSpreadSheet = () =>
-    state.spreadSheet ? _.clone(state.spreadSheet.makeSpreadSheetView()) : new SpreadSheetView();
+    state.spreadSheet
+      ? _.clone(state.spreadSheet.makeSpreadSheetView())
+      : new SpreadSheetView();
   switch (action.type) {
     case UPDATE_SHEET: {
       /**
@@ -66,35 +71,43 @@ export function SpreadSheetReducer(state = initialState, action: SpreadSheetActi
             context: VectorClockContext<WallClockTimestamp>;
           } action.payload New document content and it's VC
        */
-      const {document, context} = action.payload;
+      const { document, context } = action.payload;
 
-      const spreadSheet = new SpreadSheet(GOMapCRDT.fromJSON(document.current(), context), context);
+      const spreadSheet = new SpreadSheet(
+        GOMapCRDT.fromJSON(document.current(), context),
+        context
+      );
 
       const newSpreadSheetView = spreadSheet.makeSpreadSheetView();
 
       if (state.activeEditCell) {
         if (
           state.spreadSheetView.cells[state.activeEditCell.row] == null ||
-          state.spreadSheetView.cells[state.activeEditCell.row][state.activeEditCell.column] == null
+          state.spreadSheetView.cells[state.activeEditCell.row][
+            state.activeEditCell.column
+          ] == null
         ) {
           if (state.spreadSheetView.cells[state.activeEditCell.row] == null) {
             state.spreadSheetView.cells[state.activeEditCell.row] = [];
           }
           // TODO: try to get rid of this
-          state.spreadSheetView.cells[state.activeEditCell.row][state.activeEditCell.column] = {
+          state.spreadSheetView.cells[state.activeEditCell.row][
+            state.activeEditCell.column
+          ] = {
             column: state.activeEditCell.column,
             columnId: "local",
             id: "local",
             row: state.activeEditCell.row,
             rowId: "local",
             type: state.activeEditCell.type,
-            value: state.activeEditCell.value || "",
+            value: state.activeEditCell.value || ""
           };
         } else {
           // If remote propagation, and if the user is currently editing a cell,
           // put back his text after applying changes
-          newSpreadSheetView.cells[state.activeEditCell.row][state.activeEditCell.column]!.value =
-            state.activeEditCell.value || "";
+          newSpreadSheetView.cells[state.activeEditCell.row][
+            state.activeEditCell.column
+          ]!.value = state.activeEditCell.value || "";
         }
       }
 
@@ -102,24 +115,27 @@ export function SpreadSheetReducer(state = initialState, action: SpreadSheetActi
         ...state,
         document,
         spreadSheet,
-        spreadSheetView: newSpreadSheetView,
+        spreadSheetView: newSpreadSheetView
       };
     }
     case ADD_COLUMN: {
-      const {columnIdx, position} = action.payload;
-      addColumn(parseInt(columnIdx, 10) + (position === "before" ? 0 : 1), state);
+      const { columnIdx, position } = action.payload;
+      addColumn(
+        parseInt(columnIdx, 10) + (position === "before" ? 0 : 1),
+        state
+      );
       if (state.spreadSheet && state.document) {
         state.spreadSheet.save(state.document);
       }
-      return {...state, spreadSheetView: emptyOrCloneSpreadSheet()};
+      return { ...state, spreadSheetView: emptyOrCloneSpreadSheet() };
     }
     case ADD_ROW: {
-      const {rowIdx, position} = action.payload;
+      const { rowIdx, position } = action.payload;
       addRow(parseInt(rowIdx, 10) + (position === "before" ? 0 : 1), state);
       if (state.spreadSheet && state.document) {
         state.spreadSheet.save(state.document);
       }
-      return {...state, spreadSheetView: emptyOrCloneSpreadSheet()};
+      return { ...state, spreadSheetView: emptyOrCloneSpreadSheet() };
     }
     case EDIT_CELLS: {
       /**
@@ -134,17 +150,18 @@ export function SpreadSheetReducer(state = initialState, action: SpreadSheetActi
        * - state.spreadsheet is edited and saved with new values
        * - state.editValue set to the first cell value of edited cells (for edit bar)
        */
-      const {cells} = action.payload;
+      const { cells } = action.payload;
       editCells(cells, state);
       // Always sets the editbar with the value of the first cell
-      const editBarValue = cells.length >= 1 ? cells[0].value.toString() : state.editBarValue;
+      const editBarValue =
+        cells.length >= 1 ? cells[0].value.toString() : state.editBarValue;
       if (state.spreadSheet && state.document) {
         state.spreadSheet.save(state.document);
       }
       return {
         ...state,
         editBarValue /* , spreadSheetView: emptyOrCloneSpreadSheet() */,
-        activeEditCell: undefined,
+        activeEditCell: undefined
       };
     }
     case INCREASE_PRECISION: {
@@ -154,7 +171,7 @@ export function SpreadSheetReducer(state = initialState, action: SpreadSheetActi
           state.spreadSheet.save(state.document);
         }
       }
-      return {...state};
+      return { ...state };
     }
     case DECREASE_PRECISION: {
       if (state.activeCell) {
@@ -163,13 +180,13 @@ export function SpreadSheetReducer(state = initialState, action: SpreadSheetActi
       if (state.spreadSheet && state.document) {
         state.spreadSheet.save(state.document);
       }
-      return {...state};
+      return { ...state };
     }
     case CLEAR_CELL: {
       /**
        * TODO when is this called?
        */
-      const {row, column} = action.payload;
+      const { row, column } = action.payload;
       clearCell(row, column, state);
       if (state.spreadSheet && state.document) {
         state.spreadSheet.save(state.document);
@@ -177,12 +194,12 @@ export function SpreadSheetReducer(state = initialState, action: SpreadSheetActi
       return {
         ...state,
         editBarValue: "",
-        spreadSheetView: emptyOrCloneSpreadSheet(),
+        spreadSheetView: emptyOrCloneSpreadSheet()
       };
     }
     case ACTIVATE_CELL: {
       /**
-       * This action is called ... too much times ... TODO reduce this?
+       * This action is called ... too much times ... TODO: reduce this?
        * - (3 times) at init when nothing is activated: ROW=undefined;COLUMN=undefined;VALUE=;TYPE=undefined
        * - (3 times) when a cell is clicked (and not double clicked to edit-it): ROW=0;COLUMN=0;VALUE=;TYPE=undefined
        * - (2 times) when second click to edit the cell happens:ROW=0;COLUMN=0;VALUE=;TYPE=undefined
@@ -196,11 +213,15 @@ export function SpreadSheetReducer(state = initialState, action: SpreadSheetActi
        * - state.activeCell set to payload
        * - state.editValue set to payload.value (or "" to cover the init undefined case)
        */
-      const {row, column, value} = action.payload;
-      const {activeCell} = state;
-      if (activeCell && row === activeCell.row && column === activeCell.column) {
+      const { row, column, value } = action.payload;
+      const { activeCell } = state;
+      if (
+        activeCell &&
+        row === activeCell.row &&
+        column === activeCell.column
+      ) {
         return {
-          ...state,
+          ...state
         };
       }
       if (
@@ -212,7 +233,7 @@ export function SpreadSheetReducer(state = initialState, action: SpreadSheetActi
         return {
           ...state,
           activeCell: action.payload,
-          editBarValue: value || "",
+          editBarValue: value || ""
         };
       }
       return state;
@@ -232,32 +253,41 @@ export function SpreadSheetReducer(state = initialState, action: SpreadSheetActi
        * - state.spreadSheetView.cell that is active is set to the new value
        * - state.editValue is also set to this new value
        */
-      const {value, type} = action.payload;
-      if (!state.activeCell || (state.activeCell && value === state.activeCell.value)) {
+      const { value, type } = action.payload;
+      if (
+        !state.activeCell ||
+        (state.activeCell && value === state.activeCell.value)
+      ) {
         return state;
       }
       // Hack: updating the spreadsheet cells directly. We should replace the spreadsheet
       if (
         state.spreadSheetView.cells[state.activeCell.row] == null ||
-        state.spreadSheetView.cells[state.activeCell.row][state.activeCell.column] == null
+        state.spreadSheetView.cells[state.activeCell.row][
+          state.activeCell.column
+        ] == null
       ) {
         if (state.spreadSheetView.cells[state.activeCell.row] == null) {
           state.spreadSheetView.cells[state.activeCell.row] = [];
         }
         // if the activeCell doesn't exist, init-it:
         // TODO: try to get rid of this
-        state.spreadSheetView.cells[state.activeCell.row][state.activeCell.column] = {
+        state.spreadSheetView.cells[state.activeCell.row][
+          state.activeCell.column
+        ] = {
           column: state.activeCell.column,
           columnId: "local",
           id: "local",
           row: state.activeCell.row,
           rowId: "local",
           type,
-          value,
+          value
         };
       } else {
-        // TODO Why not changing the type also?
-        state.spreadSheetView.cells[state.activeCell.row][state.activeCell.column]!.value = value;
+        // TODO: Why not changing the type also?
+        state.spreadSheetView.cells[state.activeCell.row][
+          state.activeCell.column
+        ]!.value = value;
       }
       return {
         ...state,
@@ -265,51 +295,61 @@ export function SpreadSheetReducer(state = initialState, action: SpreadSheetActi
         activeEditCell: {
           ...state.activeCell,
           type,
-          value,
-        },
+          value
+        }
       };
     }
     case SPREADSHEET_SUBSCRIPTION: {
-      const {subscription} = action.payload;
-      return {...state, subscription};
+      const { subscription } = action.payload;
+      return { ...state, subscription };
     }
     default:
       return state;
   }
 }
 
-function addColumn(columnIdx: number, {spreadSheet}: IInternalState) {
+function addColumn(columnIdx: number, { spreadSheet }: IInternalState) {
   if (spreadSheet) {
     spreadSheet.addColumn(columnIdx);
   }
 }
 
-function increasePrecision(cells: ICellInput[], {spreadSheet}: IInternalState) {
+function increasePrecision(
+  cells: ICellInput[],
+  { spreadSheet }: IInternalState
+) {
   if (spreadSheet) {
     spreadSheet.changePrecision(cells, 1);
   }
 }
 
-function decreasePrecision(cells: ICellInput[], {spreadSheet}: IInternalState) {
+function decreasePrecision(
+  cells: ICellInput[],
+  { spreadSheet }: IInternalState
+) {
   if (spreadSheet) {
     spreadSheet.changePrecision(cells, -1);
   }
 }
 
-function addRow(rowIdx: number, {spreadSheet}: IInternalState) {
+function addRow(rowIdx: number, { spreadSheet }: IInternalState) {
   if (spreadSheet) {
     spreadSheet.addRow(rowIdx);
   }
 }
 
-function editCells(cells: ICellInput[], {spreadSheet}: IInternalState) {
+function editCells(cells: ICellInput[], { spreadSheet }: IInternalState) {
   if (spreadSheet) {
     spreadSheet.put(cells);
   }
 }
 
-function clearCell(row: number, column: number, {spreadSheet}: IInternalState) {
+function clearCell(
+  row: number,
+  column: number,
+  { spreadSheet }: IInternalState
+) {
   if (spreadSheet) {
-    spreadSheet.put([{row, column, value: "", type: "string"}]);
+    spreadSheet.put([{ row, column, value: "", type: "string" }]);
   }
 }

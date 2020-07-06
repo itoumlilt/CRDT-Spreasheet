@@ -45,7 +45,7 @@
     "classnames": "^2.2.6",
     "clsx": "^1.0.4",
     "concordant-crdtlib": "git+ssh://git@gitlab.inria.fr/concordant/software/concordant-crdtlib.git",
-    "concordant-server": "git+ssh://git@gitlab.inria.fr/concordant/software/concordant-server.git",
+    "concordant-server": "git+ssh://git@gitlab.inria.fr/concordant/software/c-server.git",
     "delta-crdts": "^0.10.3",
     "delta-crdts-msgpack-codec": "^0.2.0",
     "eslint-plugin-react": "^7.18.0",
