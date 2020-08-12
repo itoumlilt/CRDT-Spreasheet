@@ -1,18 +1,18 @@
 /**
  * MIT License
- * 
+ *
  * Copyright (c) 2020, Concordant and contributors
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -21,11 +21,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import {Color} from "@material-ui/lab";
-import {VectorClockContext, WallClockTimestamp} from "concordant-crdtlib";
-import {Connection, Database} from "concordant-server";
-import {DatabaseEventEmitter} from "concordant-server/dist/Database/Interfaces/Types";
-import {SpreadSheetDocument} from "../Types/AppTypes";
+import { Color } from "@material-ui/lab";
+import { VectorClockContext, WallClockTimestamp } from "concordant-crdtlib";
+import { Connection, Database } from "concordant-server";
+import { DatabaseEventEmitter } from "concordant-server/dist/Database/Interfaces/Types";
+import { SpreadSheetDocument } from "../Types/AppTypes";
 import {
   ACTIVATE_CELL,
   ADD_COLUMN,
@@ -49,95 +49,109 @@ import {
   SET_MESSAGE,
   SPREADSHEET_SUBSCRIPTION,
   TOGGLE_ROW_HEADER,
-  UPDATE_SHEET,
+  UPDATE_SHEET
 } from "../Types/SpreadSheetTypes";
 
 export const activateCellAction = (payload: ICellInput) => ({
   payload,
-  type: ACTIVATE_CELL,
+  type: ACTIVATE_CELL
 });
 
-export const addColumnAction = (columnIdx: number, position: "before" | "after") => ({
-  payload: {columnIdx, position},
-  type: ADD_COLUMN,
+export const addColumnAction = (
+  columnIdx: number,
+  position: "before" | "after"
+) => ({
+  payload: { columnIdx, position },
+  type: ADD_COLUMN
 });
 
 export const addRowAction = (rowIdx: number, position: "before" | "after") => ({
-  payload: {rowIdx, position},
-  type: ADD_ROW,
+  payload: { rowIdx, position },
+  type: ADD_ROW
 });
 
 export const clearMessageAction = () => ({
-  type: CLEAR_MESSAGE,
+  type: CLEAR_MESSAGE
 });
 
 export const clickColumnHeaderAction = (event: Event) => ({
-  payload: {element: event && event.currentTarget},
-  type: COLUMN_HEADER_MENU,
+  payload: { element: event && event.currentTarget },
+  type: COLUMN_HEADER_MENU
 });
 
 export const clickRowHeaderAction = (event: Event) => ({
-  payload: {element: event && event.currentTarget},
-  type: ROW_HEADER_MENU,
+  payload: { element: event && event.currentTarget },
+  type: ROW_HEADER_MENU
 });
 
 export const closeContextMenuAction = (event: Event) => ({
-  payload: {element: event && event.currentTarget},
-  type: CLOSE_CONTEXT_MENU,
+  payload: { element: event && event.currentTarget },
+  type: CLOSE_CONTEXT_MENU
 });
 
 export const decreasePrecisionAction = () => ({
   payload: {},
-  type: DECREASE_PRECISION,
+  type: DECREASE_PRECISION
 });
 
-export const editActiveCellAction = (value: CellValue, type: CellValueType) => ({
-  payload: {value, type},
-  type: EDIT_ACTIVE_CELL,
+export const editActiveCellAction = (
+  value: CellValue,
+  type: CellValueType
+) => ({
+  payload: { value, type },
+  type: EDIT_ACTIVE_CELL
 });
 
 export const editCellsAction = (cells: ICellInput[]) => ({
-  payload: {cells},
-  type: EDIT_CELLS,
+  payload: { cells },
+  type: EDIT_CELLS
 });
 
 export const increasePrecisionAction = () => ({
   payload: {},
-  type: INCREASE_PRECISION,
+  type: INCREASE_PRECISION
 });
 
-export const onConnectionAction = (connection: Connection, clientId: string) => ({
-  payload: {connection, clientId},
-  type: CONNECTION_ESTABLISHED,
+export const onConnectionAction = (
+  connection: Connection,
+  clientId: string
+) => ({
+  payload: { connection, clientId },
+  type: CONNECTION_ESTABLISHED
 });
 
-export const onUpdateAction = (document: SpreadSheetDocument, context: VectorClockContext<WallClockTimestamp>) => ({
-  payload: {document, context},
-  type: UPDATE_SHEET,
+export const onUpdateAction = (
+  document: SpreadSheetDocument,
+  context: VectorClockContext<WallClockTimestamp>
+) => ({
+  payload: { document, context },
+  type: UPDATE_SHEET
 });
 
-export const spreadSheetSubscriptionAction = (subscription: DatabaseEventEmitter) => ({
-  payload: {subscription},
-  type: SPREADSHEET_SUBSCRIPTION,
+export const spreadSheetSubscriptionAction = (
+  subscription: DatabaseEventEmitter
+) => ({
+  payload: { subscription },
+  type: SPREADSHEET_SUBSCRIPTION
 });
 
 interface IActivateCellAction {
-  payload: {row: number; column: number; value: string; type: CellValueType};
+  payload: { row: number; column: number; value: string; type: CellValueType };
   type: typeof ACTIVATE_CELL;
 }
 
 interface IAddColumnAction {
-  payload: {columnIdx: string; position: "before" | "after"};
+  payload: { columnIdx: string; position: "before" | "after" };
   type: typeof ADD_COLUMN;
 }
 
 interface IAddRowAction {
-  payload: {rowIdx: string; position: "before" | "after"};
+  payload: { rowIdx: string; position: "before" | "after" };
   type: typeof ADD_ROW;
 }
 
 interface IClearCellAction {
-  payload: {key: string; row: number; column: number};
+  payload: { key: string; row: number; column: number };
   type: typeof CLEAR_CELL;
 }
 
@@ -146,17 +160,17 @@ interface IClearMessageAction {
 }
 
 interface ICloseContextMenuAction {
-  payload: {element: HTMLElement};
+  payload: { element: HTMLElement };
   type: typeof CLOSE_CONTEXT_MENU;
 }
 
 interface IColumnHeaderMenuAction {
-  payload: {element: HTMLElement};
+  payload: { element: HTMLElement };
   type: typeof COLUMN_HEADER_MENU;
 }
 
 interface IConnectionEstablishedAction {
-  payload: {connection: Database; clientId: string};
+  payload: { connection: Database; clientId: string };
   type: typeof CONNECTION_ESTABLISHED;
 }
 
@@ -165,24 +179,30 @@ interface IDecreasePrecisionAction {
 }
 
 interface IEditActiveCellAction {
-  payload: {value: string; type: CellValueType};
+  payload: { value: string; type: CellValueType };
   type: typeof EDIT_ACTIVE_CELL;
 }
 
 interface IEditCellsAction {
   payload: {
-    cells: Array<{key: string; row: number; column: number; value: CellValue; type: CellValueType}>;
+    cells: Array<{
+      key: string;
+      row: number;
+      column: number;
+      value: CellValue;
+      type: CellValueType;
+    }>;
   };
   type: typeof EDIT_CELLS;
 }
 
 interface IGoOfflineAction {
-  payload: {success: boolean};
+  payload: { success: boolean };
   type: typeof GO_OFFLINE;
 }
 
 interface IGoOnlineAction {
-  payload: {success: boolean};
+  payload: { success: boolean };
   type: typeof GO_ONLINE;
 }
 
@@ -191,27 +211,27 @@ interface IIncreasePrecisionAction {
 }
 
 interface IModalAction {
-  payload: {modalName: string};
+  payload: { modalName: string };
   type: typeof MODAL;
 }
 
 interface IRowHeaderMenuAction {
-  payload: {element: HTMLElement};
+  payload: { element: HTMLElement };
   type: typeof ROW_HEADER_MENU;
 }
 
 interface ISetMessageAction {
-  payload: {message: string; severity: Color};
+  payload: { message: string; severity: Color };
   type: typeof SET_MESSAGE;
 }
 
 interface ISpreadSheetSubscriptionAction {
-  payload: {subscription: DatabaseEventEmitter};
+  payload: { subscription: DatabaseEventEmitter };
   type: typeof SPREADSHEET_SUBSCRIPTION;
 }
 
 interface IToggleRowHeaderAction {
-  payload: {element: HTMLElement};
+  payload: { element: HTMLElement };
   type: typeof TOGGLE_ROW_HEADER;
 }
 

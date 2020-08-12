@@ -1,18 +1,18 @@
 /**
  * MIT License
- * 
+ *
  * Copyright (c) 2020, Concordant and contributors
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -21,15 +21,21 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import {Box, Container, FormControl, FormLabel, MenuItem} from "@material-ui/core";
+import {
+  Box,
+  Container,
+  FormControl,
+  FormLabel,
+  MenuItem
+} from "@material-ui/core";
 import Select from "@material-ui/core/Select";
-import {WallClockTimeContext} from "concordant-crdtlib";
-import {Connection} from "concordant-server";
+import { WallClockTimeContext } from "concordant-crdtlib";
+import { Connection } from "concordant-server";
 import MaterialTable from "material-table";
-import React, {useEffect} from "react";
-import {connect} from "react-redux";
-import {Action, bindActionCreators} from "redux";
-import {ThunkDispatch} from "redux-thunk";
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
+import { Action, bindActionCreators } from "redux";
+import { ThunkDispatch } from "redux-thunk";
 import {
   addUser,
   createClass,
@@ -39,7 +45,7 @@ import {
   deleteUser,
   getClasses,
   getSchools,
-  getUsersFor,
+  getUsersFor
 } from "../../Repository/UserRepository";
 import {
   clearUserPanelFiltersAction,
@@ -47,14 +53,22 @@ import {
   getSchoolsAction,
   getUsersAction,
   setClassAction,
-  setSchoolAction,
+  setSchoolAction
 } from "../Common/Actions/UserPanelActions";
-import {isAuthorized, NotAuthorized} from "../Common/Authorization";
-import {styles} from "../Common/Styles/Styles";
-import {IRootState} from "../Common/Types/AppTypes";
-import {admin as ADMIN_ROLE, IClass, IUser, user as USER_ROLE} from "../Common/Types/UserTypes";
+import { isAuthorized, NotAuthorized } from "../Common/Authorization";
+import { styles } from "../Common/Styles/Styles";
+import { IRootState } from "../Common/Types/AppTypes";
+import {
+  admin as ADMIN_ROLE,
+  IClass,
+  IUser,
+  user as USER_ROLE
+} from "../Common/Types/UserTypes";
 
-interface IUserPanelProps extends ISchoolTableProps, IClassTableProps, IUserTableProps {
+interface IUserPanelProps
+  extends ISchoolTableProps,
+    IClassTableProps,
+    IUserTableProps {
   user?: IUser;
 }
 
@@ -87,29 +101,36 @@ interface IClassTableProps {
   classes?: IClass[];
 }
 
-const schoolColumns = [{title: "School Name", field: "schoolName"}];
+const schoolColumns = [{ title: "School Name", field: "schoolName" }];
 
-const classColumns = [{title: "Name", field: "className"}];
+const classColumns = [{ title: "Name", field: "className" }];
 
 const userColumns = [
-  {title: "Number", field: "number", type: "numeric"},
-  {title: "First name", field: "firstName"},
-  {title: "Last name", field: "lastName"},
-  {title: "Email", field: "email"},
+  { title: "Number", field: "number", type: "numeric" },
+  { title: "First name", field: "firstName" },
+  { title: "Last name", field: "lastName" },
+  { title: "Email", field: "email" },
   {
     editable: "never",
     field: "role",
     lookup: {
       admin: ADMIN_ROLE,
-      user: USER_ROLE,
+      user: USER_ROLE
     },
-    title: "Role",
+    title: "Role"
   },
-  {title: "Password", field: "password"},
-  {title: "Group", field: "group", type: "numeric"},
+  { title: "Password", field: "password" },
+  { title: "Group", field: "group", type: "numeric" }
 ];
 
-const requiredFieldsUser = ["number", "firstName", "lastName", "email", "password", "group"];
+const requiredFieldsUser = [
+  "number",
+  "firstName",
+  "lastName",
+  "email",
+  "password",
+  "group"
+];
 const requiredFieldsClass = ["className"];
 const requiredFieldsSchool = ["schoolName"];
 
@@ -123,15 +144,20 @@ const AttrFilter = (props: {
   stateChangeHandler?: (filterValue: string) => void;
   label?: string;
 }) => {
-  const {filterValue, values, stateChangeHandler, label} = props;
+  const { filterValue, values, stateChangeHandler, label } = props;
 
-  const handleFilterChange = (event: React.ChangeEvent<{value: unknown}>) =>
-    stateChangeHandler !== undefined && stateChangeHandler((event.target.value as string) || "");
+  const handleFilterChange = (event: React.ChangeEvent<{ value: unknown }>) =>
+    stateChangeHandler !== undefined &&
+    stateChangeHandler((event.target.value as string) || "");
 
   return (
     <FormControl>
       <FormLabel>{label}</FormLabel>
-      <Select value={filterValue || ""} onChange={handleFilterChange} displayEmpty>
+      <Select
+        value={filterValue || ""}
+        onChange={handleFilterChange}
+        displayEmpty
+      >
         {values !== undefined
           ? values.map((s: string, i: number) => (
               <MenuItem value={s} key={"school_" + i}>
@@ -150,7 +176,7 @@ const SchoolTable = ({
   context,
   user,
   dispatchClearUserPanelFiltersAction,
-  dispatchGetSchoolsAction,
+  dispatchGetSchoolsAction
 }: UserPanelProps) => {
   if (user === undefined) {
     return <Box />;
@@ -165,7 +191,11 @@ const SchoolTable = ({
     onRowAdd: (newData: ISchool) =>
       new Promise((resolve, reject) => {
         const newDataFields = Object.keys(newData);
-        if (requiredFieldsSchool.some((field: string) => !newDataFields.includes(field))) {
+        if (
+          requiredFieldsSchool.some(
+            (field: string) => !newDataFields.includes(field)
+          )
+        ) {
           return reject("Some fields are missing");
         } else {
           return createSchool(newData.schoolName, connection, context)
@@ -180,7 +210,7 @@ const SchoolTable = ({
           .then(() => dispatchClearUserPanelFiltersAction())
           .then(() => dispatchGetSchoolsAction(connection, context))
           .then(() => resolve());
-      }),
+      })
   };
 
   return (
@@ -188,7 +218,7 @@ const SchoolTable = ({
       title="Schools"
       // @ts-ignore
       columns={schoolColumns}
-      data={schools ? schools.map((s: string) => ({schoolName: s})) : []}
+      data={schools ? schools.map((s: string) => ({ schoolName: s })) : []}
       editable={user.role === ADMIN_ROLE ? editable : {}}
     />
   );
@@ -203,7 +233,7 @@ const ClassTable = (props: UserPanelProps) => {
     context,
     user,
     dispatchGetClassesAction,
-    dispatchSetSchoolAction,
+    dispatchSetSchoolAction
   } = props;
   if (schools === undefined || schools.length === 0) {
     return <React.Fragment />;
@@ -218,7 +248,11 @@ const ClassTable = (props: UserPanelProps) => {
     />
   );
 
-  if (filteredSchool === undefined || classes === undefined || user === undefined) {
+  if (
+    filteredSchool === undefined ||
+    classes === undefined ||
+    user === undefined
+  ) {
     return filter;
   }
 
@@ -232,20 +266,32 @@ const ClassTable = (props: UserPanelProps) => {
     onRowAdd: (newData: IClass) =>
       new Promise((resolve, reject) => {
         const newDataFields = Object.keys(newData);
-        if (requiredFieldsClass.some((field: string) => !newDataFields.includes(field))) {
+        if (
+          requiredFieldsClass.some(
+            (field: string) => !newDataFields.includes(field)
+          )
+        ) {
           return reject("Some fields are missing");
         } else {
-          return createClass({...newData, schoolName: filteredSchool}, connection, context)
-            .then(() => dispatchGetClassesAction(filteredSchool, connection, context))
+          return createClass(
+            { ...newData, schoolName: filteredSchool },
+            connection,
+            context
+          )
+            .then(() =>
+              dispatchGetClassesAction(filteredSchool, connection, context)
+            )
             .then(() => resolve());
         }
       }),
     onRowDelete: oldData =>
       new Promise(resolve => {
         return deleteClass(oldData, connection, context)
-          .then(() => dispatchGetClassesAction(filteredSchool, connection, context))
+          .then(() =>
+            dispatchGetClassesAction(filteredSchool, connection, context)
+          )
           .then(() => resolve());
-      }),
+      })
   };
 
   return (
@@ -256,7 +302,9 @@ const ClassTable = (props: UserPanelProps) => {
         // @ts-ignore
         columns={classColumns}
         // filter empty values because map does not support delete yet
-        data={Object.values(classes).filter((u: IClass) => u.schoolName !== undefined)}
+        data={Object.values(classes).filter(
+          (u: IClass) => u.schoolName !== undefined
+        )}
         editable={user.role === ADMIN_ROLE ? editable : {}}
       />
     </React.Fragment>
@@ -271,9 +319,13 @@ const UserTable = ({
   connection,
   context,
   user,
-  dispatchSetClassAction,
+  dispatchSetClassAction
 }: UserPanelProps) => {
-  if (filteredSchool === undefined || classes === undefined || classes.length === 0) {
+  if (
+    filteredSchool === undefined ||
+    classes === undefined ||
+    classes.length === 0
+  ) {
     return <React.Fragment />;
   }
 
@@ -300,13 +352,23 @@ const UserTable = ({
     onRowAdd: (newData: IUser) =>
       new Promise((resolve, reject) => {
         const newDataFields = Object.keys(newData);
-        if (requiredFieldsUser.some((field: string) => !newDataFields.includes(field))) {
+        if (
+          requiredFieldsUser.some(
+            (field: string) => !newDataFields.includes(field)
+          )
+        ) {
           return reject("Some fields are missing");
         } else {
           newData.role = USER_ROLE;
           newData.school = filteredSchool;
           newData.class = filteredClass;
-          return addUser(filteredSchool, filteredClass, newData, connection, context)
+          return addUser(
+            filteredSchool,
+            filteredClass,
+            newData,
+            connection,
+            context
+          )
             .then(() => getUsersFor(filteredSchool, filteredClass, connection))
             .then(() => dispatchSetClassAction(filteredClass)) // force render
             .then(() => resolve());
@@ -314,7 +376,13 @@ const UserTable = ({
       }),
     onRowDelete: (oldData: IUser) => {
       return new Promise(resolve => {
-        return deleteUser(oldData, filteredSchool, filteredClass, connection, context)
+        return deleteUser(
+          oldData,
+          filteredSchool,
+          filteredClass,
+          connection,
+          context
+        )
           .then(() => getUsersFor(filteredSchool, filteredClass, connection))
           .then(() => dispatchSetClassAction(filteredClass)) // force render
           .then(() => resolve());
@@ -326,14 +394,24 @@ const UserTable = ({
           return reject("bad operation");
         }
         const newDataFields = Object.keys(newData);
-        if (requiredFieldsUser.some((field: string) => !newDataFields.includes(field))) {
+        if (
+          requiredFieldsUser.some(
+            (field: string) => !newDataFields.includes(field)
+          )
+        ) {
           return reject("Some fields are missing");
         } else {
-          return addUser(filteredSchool, filteredClass, newData, connection, context)
+          return addUser(
+            filteredSchool,
+            filteredClass,
+            newData,
+            connection,
+            context
+          )
             .then(() => getUsersFor(filteredSchool, filteredClass, connection))
             .then(() => resolve());
         }
-      }),
+      })
   };
 
   return (
@@ -344,7 +422,9 @@ const UserTable = ({
         // @ts-ignore
         columns={userColumns}
         // filter empty values because map does not support delete yet
-        data={Object.values(users || []).filter((u: IUser) => u.number !== undefined)}
+        data={Object.values(users || []).filter(
+          (u: IUser) => u.number !== undefined
+        )}
         editable={user.role === ADMIN_ROLE ? editable : {}}
       />
     </React.Fragment>
@@ -364,7 +444,7 @@ const UserPanel = (props: UserPanelProps) => {
     filteredSchool,
     schools,
     user,
-    users,
+    users
   } = props;
 
   useEffect(() => {
@@ -378,7 +458,12 @@ const UserPanel = (props: UserPanelProps) => {
       dispatchGetClassesAction(filteredSchool, connection, context);
     }
     if (filteredSchool && filteredClass && users === undefined) {
-      dispatchGetUsersAction(filteredSchool, filteredClass, connection, context);
+      dispatchGetUsersAction(
+        filteredSchool,
+        filteredClass,
+        connection,
+        context
+      );
     }
   }, [
     classes,
@@ -392,7 +477,7 @@ const UserPanel = (props: UserPanelProps) => {
     filteredClass,
     filteredSchool,
     user,
-    users,
+    users
   ]);
 
   const styleClasses = styles();
@@ -410,16 +495,22 @@ const UserPanel = (props: UserPanelProps) => {
   );
 };
 
-const getSchoolsActionPromise = (connection: Connection, context: WallClockTimeContext) => (
-  dispatch: ThunkDispatch<IUserPanelProps, {}, Action>
-) =>
+const getSchoolsActionPromise = (
+  connection: Connection,
+  context: WallClockTimeContext
+) => (dispatch: ThunkDispatch<IUserPanelProps, {}, Action>) =>
   getSchools(connection, context).then(schools => {
     dispatch(getSchoolsAction(schools));
   });
 
-const getClassesActionPromise = (filteredSchool: string, connection: Connection, context: WallClockTimeContext) => (
-  dispatch: ThunkDispatch<IUserPanelProps, {}, Action>
-) => getClasses(filteredSchool, connection, context).then(classes => dispatch(getClassesAction(classes)));
+const getClassesActionPromise = (
+  filteredSchool: string,
+  connection: Connection,
+  context: WallClockTimeContext
+) => (dispatch: ThunkDispatch<IUserPanelProps, {}, Action>) =>
+  getClasses(filteredSchool, connection, context).then(classes =>
+    dispatch(getClassesAction(classes))
+  );
 
 const getUsersActionPromise = (
   filteredSchool: string,
@@ -427,9 +518,13 @@ const getUsersActionPromise = (
   connection: Connection,
   context: WallClockTimeContext
 ) => (dispatch: ThunkDispatch<IUserPanelProps, {}, Action>) =>
-  getUsersFor(filteredSchool, filteredClass, connection).then(users => dispatch(getUsersAction(users)));
+  getUsersFor(filteredSchool, filteredClass, connection).then(users =>
+    dispatch(getUsersAction(users))
+  );
 
-const mapDispatchToProps = (dispatch: ThunkDispatch<IUserPanelProps, {}, Action>) => {
+const mapDispatchToProps = (
+  dispatch: ThunkDispatch<IUserPanelProps, {}, Action>
+) => {
   return bindActionCreators(
     {
       dispatchClearUserPanelFiltersAction: clearUserPanelFiltersAction,
@@ -437,17 +532,33 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<IUserPanelProps, {}, Action>
       dispatchGetSchoolsAction: getSchoolsActionPromise,
       dispatchGetUsersAction: getUsersActionPromise,
       dispatchSetClassAction: setClassAction,
-      dispatchSetSchoolAction: setSchoolAction,
+      dispatchSetSchoolAction: setSchoolAction
     },
     dispatch
   );
 };
 
 const mapStateToProps = (state: IRootState, props: IUserPanelOwnProps) => {
-  const {users, filteredSchool, filteredClass, schools, classes} = state.userPanel;
-  const {user} = state.authentication;
-  return {classes, filteredSchool, filteredClass, schools, user, users, ...props};
+  const {
+    users,
+    filteredSchool,
+    filteredClass,
+    schools,
+    classes
+  } = state.userPanel;
+  const { user } = state.authentication;
+  return {
+    classes,
+    filteredSchool,
+    filteredClass,
+    schools,
+    user,
+    users,
+    ...props
+  };
 };
 
-export type UserPanelProps = IUserPanelProps & IUserPanelDispatchProps & IUserPanelOwnProps;
+export type UserPanelProps = IUserPanelProps &
+  IUserPanelDispatchProps &
+  IUserPanelOwnProps;
 export default connect(mapStateToProps, mapDispatchToProps)(UserPanel);
