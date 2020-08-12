@@ -1,18 +1,18 @@
 /**
  * MIT License
- * 
+ *
  * Copyright (c) 2020, Concordant and contributors
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import {Divider, IconButton} from "@material-ui/core";
+import { Divider, IconButton } from "@material-ui/core";
 import AppBar from "@material-ui/core/AppBar";
 import Box from "@material-ui/core/Box";
 import Drawer from "@material-ui/core/Drawer";
@@ -33,7 +33,12 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import {createStyles, fade, makeStyles, Theme} from "@material-ui/core/styles";
+import {
+  createStyles,
+  fade,
+  makeStyles,
+  Theme
+} from "@material-ui/core/styles";
 import Switch from "@material-ui/core/Switch";
 import TextField from "@material-ui/core/TextField";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -45,57 +50,64 @@ import DescriptionIcon from "@material-ui/icons/Description";
 import GridOnIcon from "@material-ui/icons/GridOn";
 import HowToReg from "@material-ui/icons/HowToReg";
 import MenuIcon from "@material-ui/icons/Menu";
-import {WallClockTimeContext} from "concordant-crdtlib";
-import {Connection} from "concordant-server";
+import { WallClockTimeContext } from "concordant-crdtlib";
+import { Connection } from "concordant-server";
 import React from "react";
-import {connect} from "react-redux";
-import {useHistory} from "react-router-dom";
-import {bindActionCreators, Dispatch} from "redux";
-import {Authentication} from "../Authentication/Authentication";
-import {goOfflineAction, goOnlineAction} from "../Common/Actions/AppActions";
-import {loginAction, loginErrorAction, logoutAction} from "../Common/Actions/AuthenticationActions";
-import {editActiveCellAction} from "../Common/Actions/SpreadSheetActions";
-import {IRootState} from "../Common/Types/AppTypes";
-import {ICellInput, ISpreadSheetConfig} from "../Common/Types/SpreadSheetTypes";
-import {IUser} from "../Common/Types/UserTypes";
+import { connect } from "react-redux";
+import { useHistory } from "react-router-dom";
+import { bindActionCreators, Dispatch } from "redux";
+import { Authentication } from "../Authentication/Authentication";
+import { goOfflineAction, goOnlineAction } from "../Common/Actions/AppActions";
+import {
+  loginAction,
+  loginErrorAction,
+  logoutAction
+} from "../Common/Actions/AuthenticationActions";
+import { editActiveCellAction } from "../Common/Actions/SpreadSheetActions";
+import { IRootState } from "../Common/Types/AppTypes";
+import {
+  ICellInput,
+  ISpreadSheetConfig
+} from "../Common/Types/SpreadSheetTypes";
+import { IUser } from "../Common/Types/UserTypes";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     fullList: {
-      width: "auto",
+      width: "auto"
     },
     list: {
-      width: 250,
+      width: 250
     },
     menuButton: {
-      marginRight: theme.spacing(2),
+      marginRight: theme.spacing(2)
     },
     root: {
-      flexGrow: 1,
+      flexGrow: 1
     },
     textField: {
       "&$focused": {
         backgroundColor: "#fff",
         borderColor: theme.palette.primary.main,
-        boxShadow: `${fade(theme.palette.primary.main, 0.25)} 0 0 0 2px`,
+        boxShadow: `${fade(theme.palette.primary.main, 0.25)} 0 0 0 2px`
       },
       "&:hover": {
-        backgroundColor: "#fff",
+        backgroundColor: "#fff"
       },
       backgroundColor: "#fcfcfb",
       border: "1px solid #e2e2e1",
       borderRadius: 4,
       overflow: "hidden",
-      transition: theme.transitions.create(["border-color", "box-shadow"]),
+      transition: theme.transitions.create(["border-color", "box-shadow"])
     },
     title: {
       flexGrow: 1,
-      paddingTop: theme.spacing(1),
+      paddingTop: theme.spacing(1)
     },
     toolbar: {},
     toolbarTwoRows: {
-      minHeight: "90px",
-    },
+      minHeight: "90px"
+    }
   })
 );
 
@@ -138,14 +150,18 @@ const MainMenu = (props: Props) => {
     login,
     loginError,
     logout,
-    user,
+    user
   } = props;
   const classes = useStyles();
-  const [anchorEl, setAnchorEl] = React.useState<undefined | HTMLElement>(undefined);
+  const [anchorEl, setAnchorEl] = React.useState<undefined | HTMLElement>(
+    undefined
+  );
   const history = useHistory();
-  const handleMenu = (event: React.MouseEvent<HTMLElement>) => setAnchorEl(event.currentTarget);
+  const handleMenu = (event: React.MouseEvent<HTMLElement>) =>
+    setAnchorEl(event.currentTarget);
   const handleClose = () => setAnchorEl(undefined);
-  const handleToggleOnlineState = () => toggleOnlineState(!isOnline, connection);
+  const handleToggleOnlineState = () =>
+    toggleOnlineState(!isOnline, connection);
   const handleOpenSpreadSheet = () => {
     setAnchorEl(undefined);
     history.push("/spreadsheet");
@@ -187,7 +203,11 @@ const MainMenu = (props: Props) => {
   return (
     <Box className={classes.root}>
       <AppBar position="fixed">
-        <Toolbar className={config.config.editBar ? classes.toolbarTwoRows : classes.toolbar}>
+        <Toolbar
+          className={
+            config.config.editBar ? classes.toolbarTwoRows : classes.toolbar
+          }
+        >
           <Grid container>
             <Grid item xs={12}>
               <Box display={"flex"}>
@@ -196,7 +216,8 @@ const MainMenu = (props: Props) => {
                   className={classes.menuButton}
                   color="inherit"
                   edge="start"
-                  onClick={handleMenu}>
+                  onClick={handleMenu}
+                >
                   <MenuIcon />
                 </IconButton>
                 <Typography variant="h6" className={classes.title}>
@@ -205,7 +226,13 @@ const MainMenu = (props: Props) => {
                 <Box>
                   <FormGroup row>
                     <FormControlLabel
-                      control={<Switch checked={isOnline} onChange={handleToggleOnlineState} color="secondary" />}
+                      control={
+                        <Switch
+                          checked={isOnline}
+                          onChange={handleToggleOnlineState}
+                          color="secondary"
+                        />
+                      }
                       label={isOnline ? "Online" : "Offline"}
                     />
                   </FormGroup>
@@ -226,7 +253,7 @@ const MainMenu = (props: Props) => {
                         <InputAdornment position="start">
                           <EditIcon />
                         </InputAdornment>
-                      ),
+                      )
                     }}
                   />
                 </Box>
@@ -266,7 +293,9 @@ const MainMenu = (props: Props) => {
                 <ListItemIcon>
                   <HowToReg />
                 </ListItemIcon>
-                <ListItemText primary={user ? "Hello " + user.firstName : "Sign in"} />
+                <ListItemText
+                  primary={user ? "Hello " + user.firstName : "Sign in"}
+                />
               </ListItem>
               <ListItem>
                 <Authentication
@@ -276,7 +305,7 @@ const MainMenu = (props: Props) => {
                     login,
                     loginError,
                     logout,
-                    user,
+                    user
                   }}
                 />
               </ListItem>
@@ -316,18 +345,29 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       login: loginAction,
       loginError: loginErrorAction,
       logout: logoutAction,
-      toggleOnlineState: toggleOnlineStateAction,
+      toggleOnlineState: toggleOnlineStateAction
     },
     dispatch
   );
 };
 
-const mapStateToProps = ({authentication, app, spreadSheet}: IRootState, ownProps: IMainMenuOwnProps) => {
-  const {isOnline, modalName} = app;
-  const {editBarValue, activeCell} = spreadSheet;
-  const {user} = authentication;
-  const {connection, context} = ownProps;
-  return {connection, context, isOnline, modalName, editBarValue, activeCell, user};
+const mapStateToProps = (
+  { authentication, app, spreadSheet }: IRootState,
+  ownProps: IMainMenuOwnProps
+) => {
+  const { isOnline, modalName } = app;
+  const { editBarValue, activeCell } = spreadSheet;
+  const { user } = authentication;
+  const { connection, context } = ownProps;
+  return {
+    connection,
+    context,
+    isOnline,
+    modalName,
+    editBarValue,
+    activeCell,
+    user
+  };
 };
 
 type Props = IMainMenuStateProps & IMainMenuDispatchProps & IMainMenuOwnProps;
