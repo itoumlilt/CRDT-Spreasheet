@@ -1,0 +1,26 @@
+# Changelog
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [Unreleased]
+### Added
+- Nginx configuration for server deployment;
+- Docker support;
+- Notepad support embedded frames of media URLs;
+- Favicon and HTML metadata;
+- this CHANGELOG file;
+### Changed
+- tslint is now deprecated, configured eslint instead;
+### Deprecated
+### Removed
+- File support in the Notepad, not stable;
+### Fixed
+- Updated deprecated dependencies;
+### Security
+
+## [0.1.0] - 2020-06-16
+### Added
+- Base merged applications as presented in the BASF online demo;
+- MIT License.
