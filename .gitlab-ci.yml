@@ -1,51 +1,32 @@
 image: node:latest
 
-stages:
-  - build
-
-cache:
+cache: &global_cache
+  key: ${CI_COMMIT_REF_SLUG}
   paths:
+    - .npm/
+    # should be a build artifact, but upload would take ~10min
     - node_modules/
 
-before_script:
-  ##
-  ## Install ssh-agent if not already installed, it is required by Docker.
-  ## (change apt-get to yum if you use an RPM-based image)
-  ##
-  - "which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )"
-
-  ##
-  ## Run ssh-agent (inside the build environment)
-  ##
-  - eval $(ssh-agent -s)
-
-  ##
-  ## Add the SSH key stored in SSH_PRIVATE_KEY variable to the agent store
-  ## We're using tr to fix line endings which makes ed25519 keys work
-  ## without extra base64 encoding.
-  ## https://gitlab.com/gitlab-examples/ssh-private-key/issues/1#note_48526556
-  ##
-  - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
-
-  ##
-  ## Create the SSH directory and give it the right permissions
-  ##
-  - mkdir -p ~/.ssh
-  - chmod 700 ~/.ssh
-
-  - ssh-keyscan gitlab.inria.fr
-  - ssh-keyscan gitlab.inria.fr >> ~/.ssh/known_hosts
-  - chmod 644 ~/.ssh/known_hosts
-
-  - apt-get update
-  - apt-get install -y libavahi-compat-libdnssd-dev
-
-install_dependencies:
+install:
   stage: build
+
+  before_script:
+    # setup authentication via https URLs
+    - git config --global url."https://gitlab-ci-token:${CI_JOB_TOKEN}@gitlab.inria.fr".insteadOf "ssh://git@gitlab.inria.fr"
+
   script:
-    - npm cache verify
-    - npm install react-scripts@latest
-    - npm install
-  artifacts:
-    paths:
-      - node_modules/
+    # npm run as root: add --unsafe-perm to prevent cryptic blocking warning (…):
+    # npm WARN lifecycle concordant-crdtlib@1.0.0~prepack: cannot run in wd concordant-crdtlib@1.0.0~prepack
+    #     <...> (wd=/builds/concordant/software/c-labbook/.npm/_cacache/tmp/git-clone-74e8bbe3)
+    - npm ci --cache .npm --prefer-offline --unsafe-perm
+
+test:
+  stage: test
+  cache:
+    # inherit all global cache settings
+    <<: *global_cache
+    # pull only (test don't modify node_modules)
+    policy: pull
+  script:
+    # ignore react-scripts rejecting newer eslint
+    - SKIP_PREFLIGHT_CHECK=true npm test
