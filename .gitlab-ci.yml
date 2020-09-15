@@ -29,4 +29,6 @@ test:
     policy: pull
   script:
     # ignore react-scripts rejecting newer eslint
-    - SKIP_PREFLIGHT_CHECK=true npm test
+    - SKIP_PREFLIGHT_CHECK=true npm run coverage
+  # regex for coverage measure
+  coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
