@@ -1,6 +1,8 @@
 # Concordant Labbook
 
 [![License](https://img.shields.io/badge/license-MIT-green)](https://opensource.org/licenses/MIT)
+[![pipeline status](https://gitlab.inria.fr/concordant/software/c-labbook/badges/master/pipeline.svg)](https://gitlab.inria.fr/concordant/software/c-labbook/-/commits/master)
+[![coverage report](https://gitlab.inria.fr/concordant/software/c-labbook/badges/master/coverage.svg)](https://gitlab.inria.fr/concordant/software/c-labbook/-/commits/master)
 
 This demo shows a collaborative application developed using a draft implementation
 of the Concordant API. The application uses the C-Server API (it will be
