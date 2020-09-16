@@ -26,7 +26,7 @@ import {
   Container,
   FormControl,
   FormLabel,
-  MenuItem
+  MenuItem,
 } from "@material-ui/core";
 import Select from "@material-ui/core/Select";
 import { WallClockTimeContext } from "concordant-crdtlib";
@@ -45,7 +45,7 @@ import {
   deleteUser,
   getClasses,
   getSchools,
-  getUsersFor
+  getUsersFor,
 } from "../../Repository/UserRepository";
 import {
   clearUserPanelFiltersAction,
@@ -53,7 +53,7 @@ import {
   getSchoolsAction,
   getUsersAction,
   setClassAction,
-  setSchoolAction
+  setSchoolAction,
 } from "../Common/Actions/UserPanelActions";
 import { isAuthorized, NotAuthorized } from "../Common/Authorization";
 import { styles } from "../Common/Styles/Styles";
@@ -62,7 +62,7 @@ import {
   admin as ADMIN_ROLE,
   IClass,
   IUser,
-  user as USER_ROLE
+  user as USER_ROLE,
 } from "../Common/Types/UserTypes";
 
 interface IUserPanelProps
@@ -115,12 +115,12 @@ const userColumns: Column<IUser>[] = [
     field: "role",
     lookup: {
       admin: ADMIN_ROLE,
-      user: USER_ROLE
+      user: USER_ROLE,
     },
-    title: "Role"
+    title: "Role",
   },
   { title: "Password", field: "password" },
-  { title: "Group", field: "group", type: "numeric" }
+  { title: "Group", field: "group", type: "numeric" },
 ];
 
 const requiredFieldsUser = [
@@ -129,7 +129,7 @@ const requiredFieldsUser = [
   "lastName",
   "email",
   "password",
-  "group"
+  "group",
 ];
 const requiredFieldsClass = ["className"];
 const requiredFieldsSchool = ["schoolName"];
@@ -176,7 +176,7 @@ const SchoolTable = ({
   context,
   user,
   dispatchClearUserPanelFiltersAction,
-  dispatchGetSchoolsAction
+  dispatchGetSchoolsAction,
 }: UserPanelProps) => {
   if (user === undefined) {
     return <Box />;
@@ -204,13 +204,13 @@ const SchoolTable = ({
             .then(() => resolve());
         }
       }),
-    onRowDelete: oldData =>
-      new Promise(resolve => {
+    onRowDelete: (oldData) =>
+      new Promise((resolve) => {
         return deleteSchool(oldData.schoolName, connection, context)
           .then(() => dispatchClearUserPanelFiltersAction())
           .then(() => dispatchGetSchoolsAction(connection, context))
           .then(() => resolve());
-      })
+      }),
   };
 
   return (
@@ -232,7 +232,7 @@ const ClassTable = (props: UserPanelProps) => {
     context,
     user,
     dispatchGetClassesAction,
-    dispatchSetSchoolAction
+    dispatchSetSchoolAction,
   } = props;
   if (schools === undefined || schools.length === 0) {
     return <React.Fragment />;
@@ -283,14 +283,14 @@ const ClassTable = (props: UserPanelProps) => {
             .then(() => resolve());
         }
       }),
-    onRowDelete: oldData =>
-      new Promise(resolve => {
+    onRowDelete: (oldData) =>
+      new Promise((resolve) => {
         return deleteClass(oldData, connection, context)
           .then(() =>
             dispatchGetClassesAction(filteredSchool, connection, context)
           )
           .then(() => resolve());
-      })
+      }),
   };
 
   return (
@@ -317,7 +317,7 @@ const UserTable = ({
   connection,
   context,
   user,
-  dispatchSetClassAction
+  dispatchSetClassAction,
 }: UserPanelProps) => {
   if (
     filteredSchool === undefined ||
@@ -330,7 +330,7 @@ const UserTable = ({
   const filter = (
     <AttrFilter
       filterValue={filteredClass}
-      values={classes.map(c => c.className)}
+      values={classes.map((c) => c.className)}
       stateChangeHandler={dispatchSetClassAction}
       label={"Class Filter"}
     />
@@ -373,7 +373,7 @@ const UserTable = ({
         }
       }),
     onRowDelete: (oldData: IUser) => {
-      return new Promise(resolve => {
+      return new Promise((resolve) => {
         return deleteUser(
           oldData,
           filteredSchool,
@@ -409,7 +409,7 @@ const UserTable = ({
             .then(() => getUsersFor(filteredSchool, filteredClass, connection))
             .then(() => resolve());
         }
-      })
+      }),
   };
 
   return (
@@ -441,7 +441,7 @@ const UserPanel = (props: UserPanelProps) => {
     filteredSchool,
     schools,
     user,
-    users
+    users,
   } = props;
 
   useEffect(() => {
@@ -474,7 +474,7 @@ const UserPanel = (props: UserPanelProps) => {
     filteredClass,
     filteredSchool,
     user,
-    users
+    users,
   ]);
 
   const styleClasses = styles();
@@ -496,7 +496,7 @@ const getSchoolsActionPromise = (
   connection: Connection,
   context: WallClockTimeContext
 ) => (dispatch: ThunkDispatch<IUserPanelProps, void, Action>) =>
-  getSchools(connection, context).then(schools => {
+  getSchools(connection, context).then((schools) => {
     dispatch(getSchoolsAction(schools));
   });
 
@@ -505,7 +505,7 @@ const getClassesActionPromise = (
   connection: Connection,
   context: WallClockTimeContext
 ) => (dispatch: ThunkDispatch<IUserPanelProps, void, Action>) =>
-  getClasses(filteredSchool, connection, context).then(classes =>
+  getClasses(filteredSchool, connection, context).then((classes) =>
     dispatch(getClassesAction(classes))
   );
 
@@ -515,7 +515,7 @@ const getUsersActionPromise = (
   connection: Connection,
   context: WallClockTimeContext
 ) => (dispatch: ThunkDispatch<IUserPanelProps, void, Action>) =>
-  getUsersFor(filteredSchool, filteredClass, connection).then(users =>
+  getUsersFor(filteredSchool, filteredClass, connection).then((users) =>
     dispatch(getUsersAction(users))
   );
 
@@ -529,7 +529,7 @@ const mapDispatchToProps = (
       dispatchGetSchoolsAction: getSchoolsActionPromise,
       dispatchGetUsersAction: getUsersActionPromise,
       dispatchSetClassAction: setClassAction,
-      dispatchSetSchoolAction: setSchoolAction
+      dispatchSetSchoolAction: setSchoolAction,
     },
     dispatch
   );
@@ -541,7 +541,7 @@ const mapStateToProps = (state: IRootState, props: IUserPanelOwnProps) => {
     filteredSchool,
     filteredClass,
     schools,
-    classes
+    classes,
   } = state.userPanel;
   const { user } = state.authentication;
   return {
@@ -551,7 +551,7 @@ const mapStateToProps = (state: IRootState, props: IUserPanelOwnProps) => {
     schools,
     user,
     users,
-    ...props
+    ...props,
   };
 };
 

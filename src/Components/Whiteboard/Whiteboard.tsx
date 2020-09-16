@@ -25,7 +25,7 @@ import { Box } from "@material-ui/core";
 import {
   GOMapCRDT,
   VectorClockContext,
-  WallClockTimestamp
+  WallClockTimestamp,
 } from "concordant-crdtlib";
 import { Connection, DatabaseHooks, Document } from "concordant-server";
 import React, { useEffect } from "react";
@@ -37,7 +37,7 @@ import { WhiteboardRepository } from "../../Repository/WhiteboardRepository";
 import {
   deleteElementsAction,
   putElementsAction,
-  WhiteboardSubscriptionAction
+  WhiteboardSubscriptionAction,
 } from "../Common/Actions/WhiteboardActions";
 import { styles } from "../Common/Styles/Styles";
 import { IRootState, IWhiteboardState } from "../Common/Types/AppTypes";
@@ -53,7 +53,7 @@ import {
   ElementComponent,
   genElementId,
   getWhiteboardKeyForUser,
-  removeEmptyEntries
+  removeEmptyEntries,
 } from "./Utils";
 
 interface IWhiteboardStateProps extends IWhiteboardState {
@@ -90,7 +90,7 @@ const Whiteboard = (props: WhiteboardProps) => {
     documentId,
     repository,
     subscription,
-    whiteboard
+    whiteboard,
   } = props;
   const classes = styles();
 
@@ -106,7 +106,7 @@ const Whiteboard = (props: WhiteboardProps) => {
     };
 
     const hooks: DatabaseHooks = {
-      conflictHandler: (obj, objs) => GOMapCRDTMergeHook(obj, objs, context)
+      conflictHandler: (obj, objs) => GOMapCRDTMergeHook(obj, objs, context),
     };
     connection.registerHooks(hooks);
 
@@ -115,20 +115,20 @@ const Whiteboard = (props: WhiteboardProps) => {
     }
 
     const newSubscription = connection.subscribe<WhiteboardCRDT>(documentId, {
-      change: handleOnUpdate
+      change: handleOnUpdate,
     });
     dispatchWhiteboardSubscriptionAction(newSubscription);
 
     repository
       .getElements(documentId)
-      .then(elements =>
+      .then((elements) =>
         dispatchPutElementsAction(Object.values(elements), props)
       );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [documentId]);
 
   const [state, setState] = React.useState<{ selected?: IElementState }>({
-    selected: undefined
+    selected: undefined,
   });
 
   const { selected } = state;
@@ -166,7 +166,7 @@ const Whiteboard = (props: WhiteboardProps) => {
 
   return (
     <React.Fragment>
-      {Object.values(whiteboard).map(e => (
+      {Object.values(whiteboard).map((e) => (
         <Box key={"clickable-" + e.id}>
           {ElementComponent(e, { classes, onClick: toggleDrawer(e) }, props)}
         </Box>
@@ -187,7 +187,7 @@ const Whiteboard = (props: WhiteboardProps) => {
 const dispatchCreateContainerActionPromise = ({
   context,
   repository,
-  user
+  user,
 }: WhiteboardProps) => (
   dispatch: ThunkDispatch<IWhiteboardState, void, Action>
 ) =>
@@ -200,14 +200,14 @@ const dispatchCreateContainerActionPromise = ({
             "container-" + elementCounter
           )
         )
-        .then(e => dispatch(putElementsAction([e])))
+        .then((e) => dispatch(putElementsAction([e])))
     : Promise.reject();
 
 const dispatchCreateTableActionPromise = ({
   connection,
   context,
   repository,
-  user
+  user,
 }: WhiteboardProps) => (
   dispatch: ThunkDispatch<IWhiteboardState, void, Action>
 ) => {
@@ -217,7 +217,7 @@ const dispatchCreateTableActionPromise = ({
   return user !== undefined
     ? spreadSheetRepository
         .getSpreadSheet(getSpreadSheetId(user))
-        .then(spreadSheet =>
+        .then((spreadSheet) =>
           repository.upsertElement(
             getWhiteboardKeyForUser(user),
             createTableState(
@@ -227,7 +227,7 @@ const dispatchCreateTableActionPromise = ({
             )
           )
         )
-        .then(e => dispatch(putElementsAction([e])))
+        .then((e) => dispatch(putElementsAction([e])))
     : Promise.reject();
 };
 
@@ -267,7 +267,7 @@ const mapDispatchToProps = (
       dispatchDeleteElementAction: dispatchDeleteElementActionPromise,
       dispatchPutElementsAction: dispatchPutElementsActionPromise,
       dispatchUpdateElementAction: dispatchUpdateElementActionPromise,
-      dispatchWhiteboardSubscriptionAction: WhiteboardSubscriptionAction
+      dispatchWhiteboardSubscriptionAction: WhiteboardSubscriptionAction,
     },
     dispatch
   );

@@ -24,7 +24,7 @@
 import {
   CellValue,
   ICellView,
-  ISpreadSheetView
+  ISpreadSheetView,
 } from "../Components/Common/Types/SpreadSheetTypes";
 import { getRowAndColumnFromPos } from "../Components/SpreadSheet/Utils";
 

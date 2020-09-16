@@ -49,12 +49,12 @@ import {
   SET_MESSAGE,
   SPREADSHEET_SUBSCRIPTION,
   TOGGLE_ROW_HEADER,
-  UPDATE_SHEET
+  UPDATE_SHEET,
 } from "../Types/SpreadSheetTypes";
 
 export const activateCellAction = (payload: ICellInput) => ({
   payload,
-  type: ACTIVATE_CELL
+  type: ACTIVATE_CELL,
 });
 
 export const addColumnAction = (
@@ -62,36 +62,36 @@ export const addColumnAction = (
   position: "before" | "after"
 ) => ({
   payload: { columnIdx, position },
-  type: ADD_COLUMN
+  type: ADD_COLUMN,
 });
 
 export const addRowAction = (rowIdx: number, position: "before" | "after") => ({
   payload: { rowIdx, position },
-  type: ADD_ROW
+  type: ADD_ROW,
 });
 
 export const clearMessageAction = () => ({
-  type: CLEAR_MESSAGE
+  type: CLEAR_MESSAGE,
 });
 
 export const clickColumnHeaderAction = (event: Event) => ({
   payload: { element: event && event.currentTarget },
-  type: COLUMN_HEADER_MENU
+  type: COLUMN_HEADER_MENU,
 });
 
 export const clickRowHeaderAction = (event: Event) => ({
   payload: { element: event && event.currentTarget },
-  type: ROW_HEADER_MENU
+  type: ROW_HEADER_MENU,
 });
 
 export const closeContextMenuAction = (event: Event) => ({
   payload: { element: event && event.currentTarget },
-  type: CLOSE_CONTEXT_MENU
+  type: CLOSE_CONTEXT_MENU,
 });
 
 export const decreasePrecisionAction = () => ({
   payload: {},
-  type: DECREASE_PRECISION
+  type: DECREASE_PRECISION,
 });
 
 export const editActiveCellAction = (
@@ -99,17 +99,17 @@ export const editActiveCellAction = (
   type: CellValueType
 ) => ({
   payload: { value, type },
-  type: EDIT_ACTIVE_CELL
+  type: EDIT_ACTIVE_CELL,
 });
 
 export const editCellsAction = (cells: ICellInput[]) => ({
   payload: { cells },
-  type: EDIT_CELLS
+  type: EDIT_CELLS,
 });
 
 export const increasePrecisionAction = () => ({
   payload: {},
-  type: INCREASE_PRECISION
+  type: INCREASE_PRECISION,
 });
 
 export const onConnectionAction = (
@@ -117,7 +117,7 @@ export const onConnectionAction = (
   clientId: string
 ) => ({
   payload: { connection, clientId },
-  type: CONNECTION_ESTABLISHED
+  type: CONNECTION_ESTABLISHED,
 });
 
 export const onUpdateAction = (
@@ -125,14 +125,14 @@ export const onUpdateAction = (
   context: VectorClockContext<WallClockTimestamp>
 ) => ({
   payload: { document, context },
-  type: UPDATE_SHEET
+  type: UPDATE_SHEET,
 });
 
 export const spreadSheetSubscriptionAction = (
   subscription: DatabaseEventEmitter
 ) => ({
   payload: { subscription },
-  type: SPREADSHEET_SUBSCRIPTION
+  type: SPREADSHEET_SUBSCRIPTION,
 });
 
 interface IActivateCellAction {

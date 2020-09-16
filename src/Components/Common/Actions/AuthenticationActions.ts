@@ -29,17 +29,17 @@ export const LOGOUT = "logout";
 
 export const loginAction = (user: IUser): ILoginAction => ({
   payload: { user },
-  type: LOGIN
+  type: LOGIN,
 });
 
 export const loginErrorAction = (): ILoginErrorAction => ({
   payload: {},
-  type: LOGIN_ERROR
+  type: LOGIN_ERROR,
 });
 
 export const logoutAction = (): ILogoutAction => ({
   payload: {},
-  type: LOGOUT
+  type: LOGOUT,
 });
 
 export interface ILoginAction {

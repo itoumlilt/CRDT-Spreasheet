@@ -1,18 +1,18 @@
 /**
  * MIT License
- * 
+ *
  * Copyright (c) 2020, Concordant and contributors
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -24,14 +24,22 @@
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import React from "react";
-import {connect} from "react-redux";
-import {bindActionCreators, Dispatch} from "redux";
-import {addColumnAction, addRowAction, closeContextMenuAction} from "../Common/Actions/SpreadSheetActions";
-import {IRootState} from "../Common/Types/AppTypes";
-import {COLUMN_HEADER_MENU, ISpreadSheetConfig, ROW_HEADER_MENU} from "../Common/Types/SpreadSheetTypes";
+import { connect } from "react-redux";
+import { bindActionCreators, Dispatch } from "redux";
+import {
+  addColumnAction,
+  addRowAction,
+  closeContextMenuAction,
+} from "../Common/Actions/SpreadSheetActions";
+import { IRootState } from "../Common/Types/AppTypes";
+import {
+  COLUMN_HEADER_MENU,
+  ISpreadSheetConfig,
+  ROW_HEADER_MENU,
+} from "../Common/Types/SpreadSheetTypes";
 
 const ContextMenu = (props: Props) => {
-  const {selectedElement, config, contextMenu, closeContextMenu} = props;
+  const { selectedElement, config, contextMenu, closeContextMenu } = props;
   if (!config.config.expand) {
     // currently menu only has expansion controls
     return <div />;
@@ -50,14 +58,15 @@ const ContextMenu = (props: Props) => {
         vertical: "top",
       }}
       open={selectedElement !== undefined}
-      onClose={closeContextMenu}>
+      onClose={closeContextMenu}
+    >
       {selectedElement && contextMenuItems(contextMenu, props)}
     </Menu>
   );
 };
 
 const contextMenuItems = (contextMenu: string, props: Props) => {
-  const {addColumn, addRow, selectedElement} = props;
+  const { addColumn, addRow, selectedElement } = props;
   switch (contextMenu) {
     case COLUMN_HEADER_MENU: {
       const columnIdx = selectedElement.attributes.column.value;
@@ -90,9 +99,9 @@ const contextMenuItems = (contextMenu: string, props: Props) => {
   }
 };
 
-const mapStateToProps = ({app}: IRootState) => {
-  const {selectedElement, contextMenu} = app;
-  return {selectedElement, contextMenu};
+const mapStateToProps = ({ app }: IRootState) => {
+  const { selectedElement, contextMenu } = app;
+  return { selectedElement, contextMenu };
 };
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
@@ -121,5 +130,7 @@ interface IContextMenuDispatchProps {
   closeContextMenu: typeof closeContextMenuAction;
 }
 
-type Props = IContextMenuStateProps & IContextMenuDispatchProps & IContextMenuOwnProps;
+type Props = IContextMenuStateProps &
+  IContextMenuDispatchProps &
+  IContextMenuOwnProps;
 export default connect(mapStateToProps, mapDispatchToProps)(ContextMenu);

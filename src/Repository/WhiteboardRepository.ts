@@ -27,12 +27,12 @@ import {
   LWWRegister,
   TotalOrder,
   WallClock,
-  WallClockTimestamp
+  WallClockTimestamp,
 } from "concordant-crdtlib";
 import { Connection, Document } from "concordant-server";
 import {
   IElementState,
-  Whiteboard
+  Whiteboard,
 } from "../Components/Common/Types/WhiteboardTypes";
 import { removeEmptyEntries } from "../Components/Whiteboard/Utils";
 
@@ -48,7 +48,7 @@ export class WhiteboardRepository {
     id: string,
     element: IElementState
   ): Promise<IElementState> {
-    return this.getWhiteboardDocument(id).then(doc => {
+    return this.getWhiteboardDocument(id).then((doc) => {
       const map = GOMapCRDT.fromJSON(doc.current(), this.context);
       map.put(element.id, LWWRegister.create(element, this.context));
       return doc
@@ -59,9 +59,9 @@ export class WhiteboardRepository {
   }
 
   public deleteElements(id: string, ids: string[]): Promise<Whiteboard> {
-    return this.getWhiteboardDocument(id).then(doc => {
+    return this.getWhiteboardDocument(id).then((doc) => {
       const map = GOMapCRDT.fromJSON(doc.current(), this.context);
-      ids.forEach(i => {
+      ids.forEach((i) => {
         map.put(i, LWWRegister.create(undefined, this.context));
       });
       return doc
@@ -73,8 +73,8 @@ export class WhiteboardRepository {
 
   public getElements(id: string): Promise<Whiteboard> {
     return this.getWhiteboardDocument(id)
-      .then(doc => GOMapCRDT.fromJSON(doc.current(), this.context).value())
-      .then(whiteboard => {
+      .then((doc) => GOMapCRDT.fromJSON(doc.current(), this.context).value())
+      .then((whiteboard) => {
         removeEmptyEntries(whiteboard);
         return whiteboard;
       });

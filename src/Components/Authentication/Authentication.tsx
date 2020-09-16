@@ -29,7 +29,7 @@ import { getUsers } from "../../Repository/UserRepository";
 import {
   loginAction,
   loginErrorAction,
-  logoutAction
+  logoutAction,
 } from "../Common/Actions/AuthenticationActions";
 import { admin, IUser } from "../Common/Types/UserTypes";
 
@@ -58,7 +58,7 @@ const adminUser: IUser = {
   number: "0",
   password: SECRET_PASSWORD,
   role: admin,
-  school: "admin"
+  school: "admin",
 };
 
 const isAdminUser = (username: string, password: string) =>
@@ -70,11 +70,11 @@ export const Authentication = ({
   loginError,
   logout,
   connection,
-  context
+  context,
 }: IAuthenticationProps) => {
   const [loginState, setLoginState] = useState<ILoginState>({
     email: "",
-    password: ""
+    password: "",
   });
   const { email, password } = loginState;
 
@@ -88,7 +88,7 @@ export const Authentication = ({
     if (isAdminUser(email, password)) {
       login(adminUser);
     } else {
-      getUsers(connection, context).then(users => {
+      getUsers(connection, context).then((users) => {
         const currUser = users[email];
         if (currUser !== undefined && currUser.password === password) {
           login(currUser);

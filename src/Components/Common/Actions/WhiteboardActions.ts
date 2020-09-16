@@ -26,26 +26,26 @@ import { WHITEBOARD_SUBSCRIPTION } from "../Types/WhiteboardTypes";
 import {
   DELETE_ELEMENTS,
   IElementState,
-  PUT_ELEMENTS
+  PUT_ELEMENTS,
 } from "../Types/WhiteboardTypes";
 
 export const deleteElementsAction = (ids: string[]): IDeleteElementsAction => ({
   payload: { ids },
-  type: DELETE_ELEMENTS
+  type: DELETE_ELEMENTS,
 });
 
 export const putElementsAction = (
   elements: IElementState[]
 ): IPutElementsAction => ({
   payload: { elements },
-  type: PUT_ELEMENTS
+  type: PUT_ELEMENTS,
 });
 
 export const WhiteboardSubscriptionAction = (
   subscription: DatabaseEventEmitter
 ): IWhiteboardSubscriptionAction => ({
   payload: { subscription },
-  type: WHITEBOARD_SUBSCRIPTION
+  type: WHITEBOARD_SUBSCRIPTION,
 });
 
 interface IDeleteElementsAction {

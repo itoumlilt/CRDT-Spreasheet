@@ -29,7 +29,7 @@ import {
   VectorClockContext,
   WallClock,
   WallClockTimeContext,
-  WallClockTimestamp
+  WallClockTimestamp,
 } from "concordant-crdtlib";
 import { Connection, PouchDBDataSource } from "concordant-server";
 import PouchDBImpl from "pouchdb";
@@ -42,14 +42,14 @@ import {
   applyMiddleware,
   bindActionCreators,
   combineReducers,
-  createStore
+  createStore,
 } from "redux";
 import thunk, { ThunkDispatch } from "redux-thunk";
 import uuid from "uuid";
 import "./App.css";
 import {
   clearMessageAction,
-  onConnectionAction
+  onConnectionAction,
 } from "./Components/Common/Actions/SpreadSheetActions";
 import AppAlert, { AppErrorAlert } from "./Components/Common/Alert";
 import { isAuthorized, NotAuthorized } from "./Components/Common/Authorization";
@@ -65,7 +65,7 @@ import { ISpreadSheetConfig } from "./Components/Common/Types/SpreadSheetTypes";
 import {
   admin as ADMIN_ROLE,
   IUser,
-  user as USER_ROLE
+  user as USER_ROLE,
 } from "./Components/Common/Types/UserTypes";
 import MainMenu from "./Components/Menus/MainMenu";
 import ContextMenu from "./Components/SpreadSheet/ContextMenu";
@@ -93,7 +93,7 @@ const memoryAdapter =
 const database = {
   connectionParams: memoryAdapter ? { adapter: "memory" } : {},
   dbName: "c-labbook-db",
-  remoteDBs: [serverAddress]
+  remoteDBs: [serverAddress],
 };
 
 export const defaultConfig: ISpreadSheetConfig = {
@@ -104,7 +104,7 @@ export const defaultConfig: ISpreadSheetConfig = {
     "Brennverhalten",
     "Pyrolyse",
     "Löslichkeit",
-    "Large Name"
+    "Large Name",
     // "ermittelte Kunststoffsorte aufgrund des Vergleichs mit den Literaturwerten",
   ],
   columnTypes: [
@@ -114,14 +114,14 @@ export const defaultConfig: ISpreadSheetConfig = {
     "number",
     "number",
     "number",
-    "number"
+    "number",
   ],
   config: {
     editBar: false,
-    expand: false
+    expand: false,
   },
   headerHeight: 30,
-  title: "BASF - Concordant Labbook"
+  title: "BASF - Concordant Labbook",
 };
 
 interface IAppState {
@@ -131,26 +131,26 @@ interface IAppState {
 
 const App = () => {
   const [{ connection, connectionFailed }, setAppState] = useState<IAppState>({
-    connectionFailed: false
+    connectionFailed: false,
   });
   useEffect(() => {
     const source = new PouchDBDataSource(PouchDBImpl, database);
     source
       .connection({
         autoSave: false,
-        handleConflicts: true
+        handleConflicts: true,
       })
-      .then(newConn => {
+      .then((newConn) => {
         setAppState({
           connection: newConn,
-          connectionFailed: false
+          connectionFailed: false,
         });
       })
-      .catch(error => {
+      .catch((error) => {
         console.error(error);
         AppErrorAlert({
           message:
-            "Your browser doesn't support the latest features od databases. We suggest to you use the latest version of Google Chrome."
+            "Your browser doesn't support the latest features od databases. We suggest to you use the latest version of Google Chrome.",
         });
         setAppState({ connectionFailed: true });
       });
@@ -164,7 +164,7 @@ const App = () => {
           connectionFailed &&
           AppErrorAlert({
             message:
-              "Your browser does not support embedded database, this can happen if you are using an old version, or Firefox in private mode. We suggest to use the latest version of Google Chrome."
+              "Your browser does not support embedded database, this can happen if you are using an old version, or Firefox in private mode. We suggest to use the latest version of Google Chrome.",
           })}
         {connection && <MainRedux connection={connection} />}
       </Provider>
@@ -231,19 +231,21 @@ const Main = (props: IMainProps) => {
         />
         <Switch>
           <Route path="/spreadsheet">
-            {// We can disable authentication and give a default spreadsheet
-            isAuthorized(user, [USER_ROLE, ADMIN_ROLE]) ? (
-              <SpreadSheet
-                documentId={getSpreadSheetId(props.user)}
-                clientId={clientId}
-                config={defaultConfig}
-                connection={connection}
-                context={vectorClockContext}
-                repository={spreadSheetRepository}
-              />
-            ) : (
-              <NotAuthorized />
-            )}
+            {
+              // We can disable authentication and give a default spreadsheet
+              isAuthorized(user, [USER_ROLE, ADMIN_ROLE]) ? (
+                <SpreadSheet
+                  documentId={getSpreadSheetId(props.user)}
+                  clientId={clientId}
+                  config={defaultConfig}
+                  connection={connection}
+                  context={vectorClockContext}
+                  repository={spreadSheetRepository}
+                />
+              ) : (
+                <NotAuthorized />
+              )
+            }
           </Route>
           <Route path="/whiteboard">
             {isAuthorized(user, [USER_ROLE, ADMIN_ROLE]) ? (
@@ -300,7 +302,7 @@ const mapDispatchToProps = (
   return bindActionCreators(
     {
       clearMessage: clearMessageAction,
-      onConnection: onConnectionAction
+      onConnection: onConnectionAction,
     },
     dispatch
   );
@@ -311,7 +313,7 @@ const reducers = {
   authentication: AuthenticationReducer,
   spreadSheet: SpreadSheetReducer,
   userPanel: UserPanelReducer,
-  whiteboard: WhiteboardReducer
+  whiteboard: WhiteboardReducer,
 };
 
 const store = createStore(combineReducers(reducers), applyMiddleware(thunk));

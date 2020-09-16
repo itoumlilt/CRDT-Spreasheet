@@ -25,7 +25,7 @@ import {
   GOMapCRDT,
   PartialOrder,
   VectorClock,
-  WallClockTimestamp
+  WallClockTimestamp,
 } from "concordant-crdtlib";
 import { DatabaseEventEmitter, Document } from "concordant-server";
 import SpreadSheetModel from "../../../Model/SpreadSheet";

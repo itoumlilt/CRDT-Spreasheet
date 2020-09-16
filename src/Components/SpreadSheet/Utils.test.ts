@@ -28,7 +28,7 @@ import {
   idCompare,
   makeIdBetween,
   makeIdToTheRight,
-  makeZeroId
+  makeZeroId,
 } from "./Utils";
 
 describe("getIdxFromRowOrColumn", () => {
