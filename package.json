@@ -13,7 +13,7 @@
     "coverage": "CI=true npm test -- --coverage",
     "lint": "eslint .",
     "eject": "react-scripts eject",
-    "pretty-quick": "pretty-quick"
+    "prettier": "prettier --check ."
   },
   "repository": {
     "type": "git",
@@ -64,12 +64,12 @@
     "husky": "^4.2.5",
     "jest": "^26.4.1",
     "jodit-react": "^1.0.59",
+    "lint-staged": "^10.3.0",
     "lodash": "^4.17.20",
     "material-table": "^1.68.1",
     "pouchdb": "^7.2.2",
     "pouchdb-adapter-memory": "^7.2.2",
     "prettier": "^1.19.1",
-    "pretty-quick": "^2.0.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-draggable": "^4.4.3",
@@ -92,7 +92,11 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "pretty-quick --staged"
+      "pre-commit": "lint-staged"
     }
+  },
+  "lint-staged": {
+    "*.{js,ts,tsx}": "eslint --cache --fix",
+    "*.{js,ts,tsx,html,css,md,json,yml}": "prettier --write"
   }
 }
