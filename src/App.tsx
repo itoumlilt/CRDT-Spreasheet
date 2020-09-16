@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-/* tslint:disable:no-console */
 import Box from "@material-ui/core/Box";
 import { ThemeProvider } from "@material-ui/styles";
 import clsx from "clsx";
@@ -84,13 +83,12 @@ PouchDBImpl.plugin(memory);
 // const debugEnv: string = process.env.REACT_APP_DEBUG || "false";
 // export const DEBUG = debugEnv.toLowerCase() === "true" || true /*force debug*/;
 
+// Remote DBs addresses
 const serverAddress =
   (process.env.REACT_APP_SERVERURL as string) ||
   "http://localhost:5984/c-notepad";
 const memoryAdapter =
   process.env.REACT_APP_MEMORY_ADAPTER !== undefined || false;
-
-console.log("Remote DBs addresses", serverAddress);
 
 const database = {
   connectionParams: memoryAdapter ? { adapter: "memory" } : {},
@@ -149,7 +147,7 @@ const App = () => {
         });
       })
       .catch(error => {
-        console.log(error);
+        console.error(error);
         AppErrorAlert({
           message:
             "Your browser doesn't support the latest features od databases. We suggest to you use the latest version of Google Chrome."
@@ -296,7 +294,9 @@ const mapStateToProps = (
   return { activeCell, connection, message, severity, user };
 };
 
-const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, Action>) => {
+const mapDispatchToProps = (
+  dispatch: ThunkDispatch<IRootState, void, Action>
+) => {
   return bindActionCreators(
     {
       clearMessage: clearMessageAction,

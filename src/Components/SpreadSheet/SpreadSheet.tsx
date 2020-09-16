@@ -246,7 +246,7 @@ const mapSpreadSheetToData = (spreadSheet: ISpreadSheetView): ICellView[][] => {
 };
 
 const mapDispatchToProps = (
-  dispatch: ThunkDispatch<ISpreadSheetState, {}, Action>
+  dispatch: ThunkDispatch<ISpreadSheetState, void, Action>
 ) => {
   return bindActionCreators(
     {
