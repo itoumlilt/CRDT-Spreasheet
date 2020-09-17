@@ -1,18 +1,18 @@
 /**
  * MIT License
- * 
+ *
  * Copyright (c) 2020, Concordant and contributors
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -28,14 +28,19 @@ import {
   ICell,
   ICellId,
   ICellViewRender,
-  ISpreadSheetView,
+  ISpreadSheetView
 } from "../Common/Types/SpreadSheetTypes";
-import {IUser} from "../Common/Types/UserTypes";
-import {stringAsKey} from "../Common/Utils";
+import { IUser } from "../Common/Types/UserTypes";
+import { stringAsKey } from "../Common/Utils";
 
 export const getSpreadSheetId = (user?: IUser): string =>
   user !== undefined
-    ? stringAsKey(user.school) + "_" + stringAsKey(user.class) + "_" + user.group + "_SPREADSHEET"
+    ? stringAsKey(user.school) +
+      "_" +
+      stringAsKey(user.class) +
+      "_" +
+      user.group +
+      "_SPREADSHEET"
     : "DEFAULT_SPREADSHEET";
 
 const baseCharCode = "A".charCodeAt(0);
@@ -52,7 +57,10 @@ export const getIdxFromRowOrColumn = (rowOrColumn: string): number => {
       .split("")
       .reverse()
       .forEach((char: string, idx: number) => {
-        const digitInt = idx === 0 ? char.charCodeAt(0) - baseCharCode : char.charCodeAt(0) - baseCharCode + 1;
+        const digitInt =
+          idx === 0
+            ? char.charCodeAt(0) - baseCharCode
+            : char.charCodeAt(0) - baseCharCode + 1;
         res += digitInt * Math.pow(radix, idx);
       });
     return res;
@@ -81,34 +89,47 @@ const separator = "_";
 //  Make id between (R_0 -> R_0_0) For add column
 
 export const makeZeroId = (row: boolean, clientId: string): ICellId => {
-  return {numbers: [0], row, clientId};
+  return { numbers: [0], row, clientId };
 };
 
-export const makeIdBetween = (id1s: string, id2s: string, row: boolean, clientId: string): ICellId => {
+export const makeIdBetween = (
+  id1s: string,
+  id2s: string,
+  row: boolean,
+  clientId: string
+): ICellId => {
   const id1 = cellIdFromIdString(id1s);
   const id2 = cellIdFromIdString(id2s);
 
-  const {numbers: n1} = id1;
-  const {numbers: n2} = id2;
+  const { numbers: n1 } = id1;
+  const { numbers: n2 } = id2;
   if (n1.length <= n2.length) {
     n2.push(0);
-    return {numbers: n2, row, clientId};
+    return { numbers: n2, row, clientId };
   } else {
     n1[n1.length - 1]++;
-    return {numbers: n1, row, clientId};
+    return { numbers: n1, row, clientId };
   }
 };
 
-export const makeIdToTheRight = (ids: string, row: boolean, clientId: string): ICellId => {
+export const makeIdToTheRight = (
+  ids: string,
+  row: boolean,
+  clientId: string
+): ICellId => {
   const id = cellIdFromIdString(ids);
   const numbers = [id.numbers[0] + 1];
-  return {numbers, row, clientId};
+  return { numbers, row, clientId };
 };
 
-export const makeIdToTheLeft = (ids: string, row: boolean, clientId: string): ICellId => {
+export const makeIdToTheLeft = (
+  ids: string,
+  row: boolean,
+  clientId: string
+): ICellId => {
   const id = cellIdFromIdString(ids);
   const numbers = [id.numbers[0] - 1];
-  return {numbers, row, clientId};
+  return { numbers, row, clientId };
 };
 
 export const idCompare = (id1: string, id2: string): number => {
@@ -116,8 +137,8 @@ export const idCompare = (id1: string, id2: string): number => {
 };
 
 export const cellIdCompare = (id1: ICellId, id2: ICellId): number => {
-  const {numbers: n1} = id1;
-  const {numbers: n2} = id2;
+  const { numbers: n1 } = id1;
+  const { numbers: n2 } = id2;
 
   for (let i = 0; i < n1.length && i < n2.length; i++) {
     if (n1[i] !== n2[i]) {
@@ -133,26 +154,35 @@ export const cellIdCompare = (id1: ICellId, id2: ICellId): number => {
   }
 };
 
-// Removed ClientId from id for specific case of BASF
-
 export const cellIdFromIdString = (id: string): ICellId => {
   const tokens = id.split(separator);
   return {
-    clientId: "", // tokens[tokens.length - 1],
-    numbers: tokens.slice(1, tokens.length /*tokens.length - 1*/).map((n: any) => parseInt(n, 10)),
-    row: tokens[0] === "R",
+    clientId: tokens[tokens.length - 1],
+    numbers: tokens
+      .slice(1, tokens.length - 1)
+      .map((n: any) => parseInt(n, 10)),
+    row: tokens[0] === "R"
   };
 };
 
 export const idStringFromCellId = (cellId: ICellId): string => {
-  return (cellId.row ? "R" : "C") + separator + cellId.numbers.join(separator) /* + separator + cellId.clientId*/;
+  return (
+    (cellId.row ? "R" : "C") +
+    separator +
+    cellId.numbers.join(separator) +
+    separator +
+    cellId.clientId
+  );
 };
 
-export const newCell = (value: CellValue = "", type: CellValueType = "string"): ICell => {
+export const newCell = (
+  value: CellValue = "",
+  type: CellValueType = "string"
+): ICell => {
   return {
     id: uuid(),
     type,
-    value,
+    value
   };
 };
 
@@ -164,18 +194,25 @@ export const countDecimals = (value: number) => {
 };
 
 export const makeCellRenderObj = (
-  props: {row: number; column: number; editable: boolean; meta: any},
+  props: { row: number; column: number; editable: boolean; meta: any },
   spreadSheet: ISpreadSheetView
 ): ICellViewRender | null => {
-  const {row, column} = props;
+  const { row, column } = props;
   const cell = spreadSheet.cells[row][column];
   if (cell) {
-    return {key: cell.id, ...props, value: processValue(cell.value, spreadSheet)};
+    return {
+      key: cell.id,
+      ...props,
+      value: processValue(cell.value, spreadSheet)
+    };
   }
   return null;
 };
 
-const processValue = (value: CellValue, spreadSheet: ISpreadSheetView): CellValue => {
+const processValue = (
+  value: CellValue,
+  spreadSheet: ISpreadSheetView
+): CellValue => {
   const regex = /=('(.*)')*/gm;
   if (typeof value !== "string" || value.charAt(0) !== "=") {
     return value;
@@ -191,7 +228,7 @@ const processValue = (value: CellValue, spreadSheet: ISpreadSheetView): CellValu
     }
     const cell = spreadSheet.getById(id);
     if (cell !== null) {
-      const {row, column} = cell;
+      const { row, column } = cell;
       const posString = getRowAndColumnFromPos(row, column);
       value = value.replace(m[1], posString);
     }
