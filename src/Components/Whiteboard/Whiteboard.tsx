@@ -189,7 +189,7 @@ const dispatchCreateContainerActionPromise = ({
   repository,
   user
 }: WhiteboardProps) => (
-  dispatch: ThunkDispatch<IWhiteboardState, {}, Action>
+  dispatch: ThunkDispatch<IWhiteboardState, void, Action>
 ) =>
   user !== undefined
     ? repository
@@ -209,7 +209,7 @@ const dispatchCreateTableActionPromise = ({
   repository,
   user
 }: WhiteboardProps) => (
-  dispatch: ThunkDispatch<IWhiteboardState, {}, Action>
+  dispatch: ThunkDispatch<IWhiteboardState, void, Action>
 ) => {
   // TODO: get this from state
   const spreadSheetRepository = new SpreadSheetRepository(connection, context);
@@ -234,7 +234,7 @@ const dispatchCreateTableActionPromise = ({
 const dispatchDeleteElementActionPromise = (
   id: string,
   { repository, user }: WhiteboardProps
-) => (dispatch: ThunkDispatch<IWhiteboardState, {}, Action>) => {
+) => (dispatch: ThunkDispatch<IWhiteboardState, void, Action>) => {
   dispatch(deleteElementsAction([id]));
   return user !== undefined
     ? repository.deleteElements(getWhiteboardKeyForUser(user), [id])
@@ -244,13 +244,13 @@ const dispatchDeleteElementActionPromise = (
 const dispatchPutElementsActionPromise = (
   elements: IElementState[],
   { user }: WhiteboardProps
-) => (dispatch: ThunkDispatch<IWhiteboardState, {}, Action>) =>
+) => (dispatch: ThunkDispatch<IWhiteboardState, void, Action>) =>
   user !== undefined ? dispatch(putElementsAction(elements)) : Promise.reject();
 
 const dispatchUpdateElementActionPromise = (
   element: IElementState,
   { repository, user }: WhiteboardProps
-) => (dispatch: ThunkDispatch<IWhiteboardState, {}, Action>) => {
+) => (dispatch: ThunkDispatch<IWhiteboardState, void, Action>) => {
   dispatch(putElementsAction([element]));
   return user !== undefined
     ? repository.upsertElement(getWhiteboardKeyForUser(user), element)
@@ -258,7 +258,7 @@ const dispatchUpdateElementActionPromise = (
 };
 
 const mapDispatchToProps = (
-  dispatch: ThunkDispatch<IWhiteboardState, {}, Action>
+  dispatch: ThunkDispatch<IWhiteboardState, void, Action>
 ) => {
   return bindActionCreators(
     {

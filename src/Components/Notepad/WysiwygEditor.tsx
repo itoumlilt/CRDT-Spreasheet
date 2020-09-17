@@ -38,14 +38,13 @@ export interface ConcordantWysiwygEditorState {
 }
 
 //const SERVER_URL: string = "http://localhost:4567/json";
-const SERVER_URL: string =
-  "https://labbook.concordant.io/c-service-notepad/json";
+const SERVER_URL = "https://labbook.concordant.io/c-service-notepad/json";
 
 export default class ConcordantWysiwygEditor extends Component<
   ConcordantWysiwygEditorProps,
   ConcordantWysiwygEditorState
 > {
-  private value: string = "Connecting to C-Service...";
+  private value = "Connecting to C-Service...";
 
   private interval: any;
 
@@ -105,12 +104,16 @@ export default class ConcordantWysiwygEditor extends Component<
           resolve(this.response);
         } else {
           // reject(new Error(this.statusText));
-          console.log("[INIT]XMLHttpRequest onload Error: " + this.statusText);
+          console.error(
+            "[INIT]XMLHttpRequest onload Error: " + this.statusText
+          );
         }
       };
       request.onerror = function() {
         //reject(new Error('XMLHttpRequest Error: ' + this.statusText));
-        console.log("[INIT] XMLHttpRequest onerror Error: " + this.statusText);
+        console.error(
+          "[INIT] XMLHttpRequest onerror Error: " + this.statusText
+        );
       };
       request.open("POST", url + "/init");
       request.setRequestHeader("Content-Type", "application/json");
@@ -129,12 +132,12 @@ export default class ConcordantWysiwygEditor extends Component<
           resolve(this.response);
         } else {
           // reject(new Error(this.statusText));
-          console.log("[GET]XMLHttpRequest onload Error: " + this.statusText);
+          console.error("[GET]XMLHttpRequest onload Error: " + this.statusText);
         }
       };
       request.onerror = function() {
         // reject(new Error(this.statusText));
-        console.log("[GET]XMLHttpRequest onerror Error: " + this.statusText);
+        console.error("[GET]XMLHttpRequest onerror Error: " + this.statusText);
       };
       request.open("POST", url + "/get");
       request.setRequestHeader("Content-Type", "application/json");
@@ -158,12 +161,16 @@ export default class ConcordantWysiwygEditor extends Component<
           resolve(this.response);
         } else {
           //reject(new Error(this.statusText));
-          console.log("[UPDATE]XMLHttpRequest onload Error: " + this.response);
+          console.error(
+            "[UPDATE]XMLHttpRequest onload Error: " + this.response
+          );
         }
       };
       request.onerror = function() {
         //reject(new Error('XMLHttpRequest Error: ' + this.statusText));
-        console.log("[UPDATE]XMLHttpRequest onerror Error: " + this.statusText);
+        console.error(
+          "[UPDATE]XMLHttpRequest onerror Error: " + this.statusText
+        );
       };
       request.open("POST", url + "/update");
       request.setRequestHeader("Content-Type", "application/json");
@@ -209,7 +216,7 @@ export default class ConcordantWysiwygEditor extends Component<
         }
       })
       .catch(error => {
-        console.log(error);
+        console.error(error);
       });
   }
 
@@ -227,7 +234,7 @@ export default class ConcordantWysiwygEditor extends Component<
         });
       })
       .catch(error => {
-        console.log(error);
+        console.error(error);
       });
   }
 

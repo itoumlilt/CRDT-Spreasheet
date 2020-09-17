@@ -31,7 +31,7 @@ import {
 import Select from "@material-ui/core/Select";
 import { WallClockTimeContext } from "concordant-crdtlib";
 import { Connection } from "concordant-server";
-import MaterialTable from "material-table";
+import MaterialTable, { Column } from "material-table";
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { Action, bindActionCreators } from "redux";
@@ -105,7 +105,7 @@ const schoolColumns = [{ title: "School Name", field: "schoolName" }];
 
 const classColumns = [{ title: "Name", field: "className" }];
 
-const userColumns = [
+const userColumns: Column<IUser>[] = [
   { title: "Number", field: "number", type: "numeric" },
   { title: "First name", field: "firstName" },
   { title: "Last name", field: "lastName" },
@@ -216,7 +216,6 @@ const SchoolTable = ({
   return (
     <MaterialTable
       title="Schools"
-      // @ts-ignore
       columns={schoolColumns}
       data={schools ? schools.map((s: string) => ({ schoolName: s })) : []}
       editable={user.role === ADMIN_ROLE ? editable : {}}
@@ -299,7 +298,6 @@ const ClassTable = (props: UserPanelProps) => {
       {filter}
       <MaterialTable
         title="Classes"
-        // @ts-ignore
         columns={classColumns}
         // filter empty values because map does not support delete yet
         data={Object.values(classes).filter(
@@ -419,7 +417,6 @@ const UserTable = ({
       {filter}
       <MaterialTable
         title="Users"
-        // @ts-ignore
         columns={userColumns}
         // filter empty values because map does not support delete yet
         data={Object.values(users || []).filter(
@@ -498,7 +495,7 @@ const UserPanel = (props: UserPanelProps) => {
 const getSchoolsActionPromise = (
   connection: Connection,
   context: WallClockTimeContext
-) => (dispatch: ThunkDispatch<IUserPanelProps, {}, Action>) =>
+) => (dispatch: ThunkDispatch<IUserPanelProps, void, Action>) =>
   getSchools(connection, context).then(schools => {
     dispatch(getSchoolsAction(schools));
   });
@@ -507,7 +504,7 @@ const getClassesActionPromise = (
   filteredSchool: string,
   connection: Connection,
   context: WallClockTimeContext
-) => (dispatch: ThunkDispatch<IUserPanelProps, {}, Action>) =>
+) => (dispatch: ThunkDispatch<IUserPanelProps, void, Action>) =>
   getClasses(filteredSchool, connection, context).then(classes =>
     dispatch(getClassesAction(classes))
   );
@@ -517,13 +514,13 @@ const getUsersActionPromise = (
   filteredClass: string,
   connection: Connection,
   context: WallClockTimeContext
-) => (dispatch: ThunkDispatch<IUserPanelProps, {}, Action>) =>
+) => (dispatch: ThunkDispatch<IUserPanelProps, void, Action>) =>
   getUsersFor(filteredSchool, filteredClass, connection).then(users =>
     dispatch(getUsersAction(users))
   );
 
 const mapDispatchToProps = (
-  dispatch: ThunkDispatch<IUserPanelProps, {}, Action>
+  dispatch: ThunkDispatch<IUserPanelProps, void, Action>
 ) => {
   return bindActionCreators(
     {
