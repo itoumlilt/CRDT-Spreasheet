@@ -26,7 +26,7 @@ import { VectorClockContext, WallClockTimestamp } from "concordant-crdtlib";
 import {
   Connection,
   DatabaseEventEmitter,
-  DatabaseHooks
+  DatabaseHooks,
 } from "concordant-server";
 import _ from "lodash";
 import React, { useEffect } from "react";
@@ -43,20 +43,20 @@ import {
   editActiveCellAction,
   editCellsAction,
   onUpdateAction,
-  spreadSheetSubscriptionAction
+  spreadSheetSubscriptionAction,
 } from "../Common/Actions/SpreadSheetActions";
 import {
   IRootState,
   ISpreadSheetState,
   SpreadSheetCRDT,
-  SpreadSheetDocument
+  SpreadSheetDocument,
 } from "../Common/Types/AppTypes";
 import {
   CellValue,
   CellValueType,
   ICellView,
   ISpreadSheetConfig,
-  ISpreadSheetView
+  ISpreadSheetView,
 } from "../Common/Types/SpreadSheetTypes";
 import { GOMapCRDTMergeHook } from "../Common/Utils";
 import { ActiveMenu } from "./ActiveCellMenu";
@@ -100,7 +100,7 @@ const SpreadSheet = (props: SpreadSheetProps) => {
     spreadSheetView,
     onUpdate,
     spreadSheetSubscription,
-    subscription
+    subscription,
   } = props;
 
   const handleEditActiveCell = (value: CellValue, type: CellValueType) => {
@@ -116,7 +116,7 @@ const SpreadSheet = (props: SpreadSheetProps) => {
       column,
       row,
       type,
-      value
+      value,
     });
 
   useEffect(() => {
@@ -125,7 +125,7 @@ const SpreadSheet = (props: SpreadSheetProps) => {
     };
 
     const hooks: DatabaseHooks = {
-      conflictHandler: (obj, objs) => GOMapCRDTMergeHook(obj, objs, context)
+      conflictHandler: (obj, objs) => GOMapCRDTMergeHook(obj, objs, context),
     };
 
     connection.registerHooks(hooks);
@@ -134,14 +134,14 @@ const SpreadSheet = (props: SpreadSheetProps) => {
       connection.cancel(subscription);
     }
     const newSubscription = connection.subscribe<SpreadSheetCRDT>(documentId, {
-      change: handleOnUpdate
+      change: handleOnUpdate,
     });
 
     spreadSheetSubscription(newSubscription);
 
     repository
       .getSpreadSheetDocument(documentId)
-      .then(newSpreadSheet => onUpdate(newSpreadSheet, context));
+      .then((newSpreadSheet) => onUpdate(newSpreadSheet, context));
     // eslint-disable-next-line
   }, [documentId]); // onEffect only called when documentId changes. When that happens refresh subscription
 
@@ -175,14 +175,14 @@ const SpreadSheet = (props: SpreadSheetProps) => {
                   column: parseInt(colIdx, 10),
                   row: parseInt(rowIdx, 10),
                   type: "string",
-                  value: ""
+                  value: "",
                 });
               }
               ops.push({
                 row,
                 column,
                 value: copied[rowIdx][colIdx].value,
-                type: copied[rowIdx][colIdx].type
+                type: copied[rowIdx][colIdx].type,
               });
             }
           }
@@ -256,7 +256,7 @@ const mapDispatchToProps = (
       editActiveCell: editActiveCellAction,
       editCells: editCellsAction,
       onUpdate: onUpdateAction,
-      spreadSheetSubscription: spreadSheetSubscriptionAction
+      spreadSheetSubscription: spreadSheetSubscriptionAction,
     },
     dispatch
   );
@@ -267,7 +267,7 @@ const mapStateToProps = (state: IRootState, props: ISpreadSheetOwnProps) => {
     activeCell,
     spreadSheetView,
     editBarValue,
-    subscription
+    subscription,
   } = state.spreadSheet;
   const { documentId, clientId } = props;
   return {
@@ -276,7 +276,7 @@ const mapStateToProps = (state: IRootState, props: ISpreadSheetOwnProps) => {
     documentId,
     clientId,
     editBarValue,
-    subscription
+    subscription,
   };
 };
 

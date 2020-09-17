@@ -27,7 +27,7 @@ import { AppActionTypes } from "../Actions/AppActions";
 import {
   AuthActionTypes,
   LOGIN,
-  LOGIN_ERROR
+  LOGIN_ERROR,
 } from "../Actions/AuthenticationActions";
 import { SpreadSheetActionTypes } from "../Actions/SpreadSheetActions";
 import {
@@ -39,7 +39,7 @@ import {
   GO_ONLINE,
   ROW_HEADER_MENU,
   SET_MESSAGE,
-  TOGGLE_ROW_HEADER
+  TOGGLE_ROW_HEADER,
 } from "../Types/SpreadSheetTypes";
 
 interface IInternalState {
@@ -54,7 +54,7 @@ interface IInternalState {
 
 const initialState: IInternalState = {
   clientId: "",
-  isOnline: false
+  isOnline: false,
 };
 
 export function AppReducer(
@@ -80,35 +80,35 @@ export function AppReducer(
         ...state,
         clientId,
         connection,
-        isOnline: true
+        isOnline: true,
       };
     }
     case GO_OFFLINE: {
       const { success } = action.payload;
       return {
         ...state,
-        isOnline: !success
+        isOnline: !success,
       };
     }
     case GO_ONLINE: {
       const { success } = action.payload;
       return {
         ...state,
-        isOnline: success
+        isOnline: success,
       };
     }
     case LOGIN: {
       return {
         ...state,
         message: "User successfully logged in",
-        severity: "success"
+        severity: "success",
       };
     }
     case LOGIN_ERROR: {
       return {
         ...state,
         message: "user or password incorrect",
-        severity: "error"
+        severity: "error",
       };
     }
     case SET_MESSAGE: {
@@ -116,14 +116,14 @@ export function AppReducer(
       return {
         ...state,
         message,
-        severity
+        severity,
       };
     }
     case CLEAR_MESSAGE: {
       return {
         ...state,
         message: undefined,
-        severity: undefined
+        severity: undefined,
       };
     }
     default:

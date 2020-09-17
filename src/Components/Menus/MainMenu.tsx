@@ -37,7 +37,7 @@ import {
   createStyles,
   fade,
   makeStyles,
-  Theme
+  Theme,
 } from "@material-ui/core/styles";
 import Switch from "@material-ui/core/Switch";
 import TextField from "@material-ui/core/TextField";
@@ -61,53 +61,53 @@ import { goOfflineAction, goOnlineAction } from "../Common/Actions/AppActions";
 import {
   loginAction,
   loginErrorAction,
-  logoutAction
+  logoutAction,
 } from "../Common/Actions/AuthenticationActions";
 import { editActiveCellAction } from "../Common/Actions/SpreadSheetActions";
 import { IRootState } from "../Common/Types/AppTypes";
 import {
   ICellInput,
-  ISpreadSheetConfig
+  ISpreadSheetConfig,
 } from "../Common/Types/SpreadSheetTypes";
 import { IUser } from "../Common/Types/UserTypes";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     fullList: {
-      width: "auto"
+      width: "auto",
     },
     list: {
-      width: 250
+      width: 250,
     },
     menuButton: {
-      marginRight: theme.spacing(2)
+      marginRight: theme.spacing(2),
     },
     root: {
-      flexGrow: 1
+      flexGrow: 1,
     },
     textField: {
       "&$focused": {
         backgroundColor: "#fff",
         borderColor: theme.palette.primary.main,
-        boxShadow: `${fade(theme.palette.primary.main, 0.25)} 0 0 0 2px`
+        boxShadow: `${fade(theme.palette.primary.main, 0.25)} 0 0 0 2px`,
       },
       "&:hover": {
-        backgroundColor: "#fff"
+        backgroundColor: "#fff",
       },
       backgroundColor: "#fcfcfb",
       border: "1px solid #e2e2e1",
       borderRadius: 4,
       overflow: "hidden",
-      transition: theme.transitions.create(["border-color", "box-shadow"])
+      transition: theme.transitions.create(["border-color", "box-shadow"]),
     },
     title: {
       flexGrow: 1,
-      paddingTop: theme.spacing(1)
+      paddingTop: theme.spacing(1),
     },
     toolbar: {},
     toolbarTwoRows: {
-      minHeight: "90px"
-    }
+      minHeight: "90px",
+    },
   })
 );
 
@@ -150,7 +150,7 @@ const MainMenu = (props: Props) => {
     login,
     loginError,
     logout,
-    user
+    user,
   } = props;
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState<undefined | HTMLElement>(
@@ -253,7 +253,7 @@ const MainMenu = (props: Props) => {
                         <InputAdornment position="start">
                           <EditIcon />
                         </InputAdornment>
-                      )
+                      ),
                     }}
                   />
                 </Box>
@@ -305,7 +305,7 @@ const MainMenu = (props: Props) => {
                     login,
                     loginError,
                     logout,
-                    user
+                    user,
                   }}
                 />
               </ListItem>
@@ -345,7 +345,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       login: loginAction,
       loginError: loginErrorAction,
       logout: logoutAction,
-      toggleOnlineState: toggleOnlineStateAction
+      toggleOnlineState: toggleOnlineStateAction,
     },
     dispatch
   );
@@ -366,7 +366,7 @@ const mapStateToProps = (
     modalName,
     editBarValue,
     activeCell,
-    user
+    user,
   };
 };
 

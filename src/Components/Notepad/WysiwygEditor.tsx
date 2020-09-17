@@ -59,12 +59,12 @@ export default class ConcordantWysiwygEditor extends Component<
         minHeight: 1000,
         placeholder: "Welcome to C-Notepad | Start typing text ...",
         buttons:
-          "source,|,bold,strikethrough,underline,italic,eraser,|,superscript,subscript,|,ul,ol,|,outdent,indent,|,font,fontsize,brush,paragraph,|,image,file,table,link,|,align,undo,redo,\n,selectall,cut,copy,paste,copyformat,|,hr,symbol,fullsize,print"
+          "source,|,bold,strikethrough,underline,italic,eraser,|,superscript,subscript,|,ul,ol,|,outdent,indent,|,font,fontsize,brush,paragraph,|,image,file,table,link,|,align,undo,redo,\n,selectall,cut,copy,paste,copyformat,|,hr,symbol,fullsize,print",
       },
       value: this.value,
       spin: 1,
       uid: -1,
-      timestamp: 0
+      timestamp: 0,
     };
 
     this.readText();
@@ -97,9 +97,9 @@ export default class ConcordantWysiwygEditor extends Component<
   }
 
   private initRequest(url: string, init_uid: number): Promise<any> {
-    return new Promise<any>(function(resolve, reject) {
+    return new Promise<any>(function (resolve, reject) {
       const request = new XMLHttpRequest();
-      request.onload = function() {
+      request.onload = function () {
         if (this.status === 200) {
           resolve(this.response);
         } else {
@@ -109,7 +109,7 @@ export default class ConcordantWysiwygEditor extends Component<
           );
         }
       };
-      request.onerror = function() {
+      request.onerror = function () {
         //reject(new Error('XMLHttpRequest Error: ' + this.statusText));
         console.error(
           "[INIT] XMLHttpRequest onerror Error: " + this.statusText
@@ -118,16 +118,16 @@ export default class ConcordantWysiwygEditor extends Component<
       request.open("POST", url + "/init");
       request.setRequestHeader("Content-Type", "application/json");
       const req = {
-        uid: init_uid
+        uid: init_uid,
       };
       request.send(JSON.stringify(req));
     });
   }
 
   private getRequest(url: string, uid: number): Promise<any> {
-    return new Promise<any>(function(resolve, reject) {
+    return new Promise<any>(function (resolve, reject) {
       const request = new XMLHttpRequest();
-      request.onload = function() {
+      request.onload = function () {
         if (this.status === 200) {
           resolve(this.response);
         } else {
@@ -135,14 +135,14 @@ export default class ConcordantWysiwygEditor extends Component<
           console.error("[GET]XMLHttpRequest onload Error: " + this.statusText);
         }
       };
-      request.onerror = function() {
+      request.onerror = function () {
         // reject(new Error(this.statusText));
         console.error("[GET]XMLHttpRequest onerror Error: " + this.statusText);
       };
       request.open("POST", url + "/get");
       request.setRequestHeader("Content-Type", "application/json");
       const req = {
-        uid: uid
+        uid: uid,
       };
       request.send(JSON.stringify(req));
     });
@@ -154,9 +154,9 @@ export default class ConcordantWysiwygEditor extends Component<
     uid: number,
     timestamp: number
   ): Promise<any> {
-    return new Promise<any>(function(resolve, reject) {
+    return new Promise<any>(function (resolve, reject) {
       const request = new XMLHttpRequest();
-      request.onload = function() {
+      request.onload = function () {
         if (this.status === 200) {
           resolve(this.response);
         } else {
@@ -166,7 +166,7 @@ export default class ConcordantWysiwygEditor extends Component<
           );
         }
       };
-      request.onerror = function() {
+      request.onerror = function () {
         //reject(new Error('XMLHttpRequest Error: ' + this.statusText));
         console.error(
           "[UPDATE]XMLHttpRequest onerror Error: " + this.statusText
@@ -177,7 +177,7 @@ export default class ConcordantWysiwygEditor extends Component<
       const req = {
         value: content,
         uid: uid,
-        timestamp: timestamp
+        timestamp: timestamp,
       };
       request.send(JSON.stringify(req));
     });
@@ -190,7 +190,7 @@ export default class ConcordantWysiwygEditor extends Component<
       config: prevState.config,
       value: text,
       spin: prevState.spin,
-      timestamp: timestamp
+      timestamp: timestamp,
     });
 
     // No read when the user is writing to the interface
@@ -205,17 +205,17 @@ export default class ConcordantWysiwygEditor extends Component<
   private readText(): void {
     const prevState = this.state;
     this.getRequest(SERVER_URL, prevState.uid)
-      .then(response => {
+      .then((response) => {
         const jsonResponseParsed = JSON.parse(response);
         if (jsonResponseParsed["last_timestamp"] >= this.state.timestamp) {
           this.setState({
             config: prevState.config,
             value: jsonResponseParsed["value"],
-            spin: prevState.spin
+            spin: prevState.spin,
           });
         }
       })
-      .catch(error => {
+      .catch((error) => {
         console.error(error);
       });
   }
@@ -223,17 +223,17 @@ export default class ConcordantWysiwygEditor extends Component<
   private initUser(): void {
     const prevState = this.state;
     this.initRequest(SERVER_URL, this.state.uid)
-      .then(response => {
+      .then((response) => {
         const jsonResponseParsed = JSON.parse(response);
         this.setState({
           config: prevState.config,
           value: jsonResponseParsed["value"],
           spin: prevState.spin,
           uid: jsonResponseParsed["uid"],
-          timestamp: prevState.timestamp + 1
+          timestamp: prevState.timestamp + 1,
         });
       })
-      .catch(error => {
+      .catch((error) => {
         console.error(error);
       });
   }

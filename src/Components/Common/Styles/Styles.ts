@@ -26,14 +26,14 @@ import { createMuiTheme, createStyles, makeStyles } from "@material-ui/core";
 export const theme = createMuiTheme({
   palette: {
     secondary: {
-      main: "#f0f0f0"
-    }
+      main: "#f0f0f0",
+    },
   },
   typography: {
     body2: {
-      fontWeight: "bold"
-    }
-  }
+      fontWeight: "bold",
+    },
+  },
 });
 
 export const styles = makeStyles(() =>
@@ -44,35 +44,35 @@ export const styles = makeStyles(() =>
       flexWrap: "wrap",
       "& > *": {
         margin: theme.spacing(1),
-        width: "100%"
-      }
+        width: "100%",
+      },
     },
     contextDrawer: {
-      width: 250
+      width: 250,
     },
     contextMenuInputLabel: {
       marginLeft: 10,
-      marginRight: 10
+      marginRight: 10,
     },
     draggableContainer: {
-      border: "1px black solid"
+      border: "1px black solid",
     },
     editBar: { marginTop: 10, marginBottom: 65 },
     filterBar: {
       "& > *": {
-        margin: theme.spacing(1)
+        margin: theme.spacing(1),
       },
       display: "flex",
-      flexWrap: "wrap"
+      flexWrap: "wrap",
     },
     hideBackdrop: {
-      background: "none"
+      background: "none",
     },
     noEditBar: { marginTop: 40, marginBottom: 65 },
 
     tableContainer: {
       margin: 10,
-      padding: 10
+      padding: 10,
     },
 
     paper: {},
@@ -80,20 +80,20 @@ export const styles = makeStyles(() =>
     spreadSheetContainer: {
       height: "100",
       overflowX: "scroll",
-      width: "100%"
+      width: "100%",
     },
 
     fab: {
       bottom: theme.spacing(2),
       position: "absolute",
-      right: theme.spacing(2)
+      right: theme.spacing(2),
     },
     whiteboardContextMenu: {
-      width: 250
+      width: 250,
     },
     notepadContainer: {
       height: "100%",
-      width: "100%"
-    }
+      width: "100%",
+    },
   })
 );

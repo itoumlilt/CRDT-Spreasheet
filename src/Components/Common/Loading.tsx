@@ -1,18 +1,18 @@
 /**
  * MIT License
- * 
+ *
  * Copyright (c) 2020, Concordant and contributors
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -21,12 +21,18 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import {LinearProgress, Typography} from "@material-ui/core";
+import { LinearProgress, Typography } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
 import React from "react";
 
 export default (msg: string) => (
-  <Box alignItems="center" p={1} m={1} bgcolor="background.paper" css={{height: "200px"}}>
+  <Box
+    alignItems="center"
+    p={1}
+    m={1}
+    bgcolor="background.paper"
+    css={{ height: "200px" }}
+  >
     <LinearProgress />
     <Typography>{msg}</Typography>
   </Box>

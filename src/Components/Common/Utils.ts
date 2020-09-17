@@ -27,7 +27,7 @@ import {
   GOMapCRDT,
   Order,
   StateCRDT,
-  Timestamp
+  Timestamp,
 } from "concordant-crdtlib";
 import { Document } from "concordant-server";
 

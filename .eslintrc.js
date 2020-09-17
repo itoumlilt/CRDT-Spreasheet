@@ -7,9 +7,9 @@ module.exports = {
     "react-app",
     "prettier",
     "prettier/@typescript-eslint",
-    "prettier/react"
+    "prettier/react",
   ],
   rules: {
-    "no-console": ["error", { allow: ["warn", "error"] }]
-  }
+    "no-console": ["error", { allow: ["warn", "error"] }],
+  },
 };

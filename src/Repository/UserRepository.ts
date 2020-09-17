@@ -27,7 +27,7 @@ import {
   LWWRegister,
   TotalOrder,
   WallClock,
-  WallClockTimestamp
+  WallClockTimestamp,
 } from "concordant-crdtlib";
 import { Connection } from "concordant-server";
 import { IClass, IUser } from "../Components/Common/Types/UserTypes";
@@ -51,7 +51,9 @@ export const getSchools = (
     .get<LWWRegister<Schools>>(SCHOOLS_KEY, () =>
       LWWRegister.create([], context).toJSONObj(context)
     )
-    .then(doc => LWWRegister.fromJSON<Schools>(doc.current(), context).value());
+    .then((doc) =>
+      LWWRegister.fromJSON<Schools>(doc.current(), context).value()
+    );
 };
 
 export const createSchool = (
@@ -59,7 +61,7 @@ export const createSchool = (
   connection: Connection,
   context: Context<TotalOrder, WallClockTimestamp, WallClock>
 ) => {
-  return connection.get<Schools>(SCHOOLS_KEY).then(doc => {
+  return connection.get<Schools>(SCHOOLS_KEY).then((doc) => {
     const schools = LWWRegister.fromJSON<Schools>(
       doc.current(),
       context
@@ -76,7 +78,7 @@ export const deleteSchool = (
   connection: Connection,
   context: Context<TotalOrder, WallClockTimestamp, WallClock>
 ) => {
-  return connection.get<Schools>(SCHOOLS_KEY).then(doc => {
+  return connection.get<Schools>(SCHOOLS_KEY).then((doc) => {
     const schools = LWWRegister.fromJSON<Schools>(
       doc.current(),
       context
@@ -98,7 +100,7 @@ export const getClasses = (
       makeSchoolClassesKey(schoolName),
       () => GOMapCRDT.create(context).toJSONObj(context)
     )
-    .then(doc =>
+    .then((doc) =>
       Object.values(
         GOMapCRDT.fromJSON<TotalOrder, WallClockTimestamp, WallClock>(
           doc.current(),
@@ -119,7 +121,7 @@ export const createClass = (
       .get(makeSchoolClassesKey(schoolName), () =>
         GOMapCRDT.create(context).toJSONObj(context)
       )
-      .then(doc => {
+      .then((doc) => {
         const classObj = GOMapCRDT.fromJSON(doc.current(), context);
         classObj.put(
           className,
@@ -147,14 +149,14 @@ export const deleteClass = (
   const { className, schoolName } = classParams;
   return connection
     .get(makeSchoolClassesKey(schoolName))
-    .then(doc => {
+    .then((doc) => {
       const classObj = GOMapCRDT.fromJSON(doc.current(), context);
       classObj.put(className, LWWRegister.create({}, context));
       doc.update(classObj.toJSONObj(context));
       return doc.save();
     })
     .then(() => connection.get(makeClassGroupsKey(className, schoolName)))
-    .then(doc => {
+    .then((doc) => {
       const emptyGroups = GOMapCRDT.create(context).toJSONObj(context);
       doc.update(emptyGroups);
       doc.save();
@@ -167,7 +169,7 @@ export const getUsers = (
 ) => {
   return connection
     .get<IUsers>(makeUsersIndexKey(), () => getNewUsersCRDTasJSON(context))
-    .then(doc => doc.current().users);
+    .then((doc) => doc.current().users);
 };
 
 export const getUsersFor = (
@@ -177,13 +179,13 @@ export const getUsersFor = (
 ) => {
   return connection
     .get<IGroups>(makeClassGroupsKey(className, schoolName))
-    .then(doc => {
+    .then((doc) => {
       const users = doc.current().users;
       if (users === undefined) {
         return [];
       }
       return Object.values(users).reduce((accUsers: IUser[], group) => {
-        Object.values(group).forEach(u => accUsers.push(u));
+        Object.values(group).forEach((u) => accUsers.push(u));
         return accUsers;
       }, []);
     });
@@ -198,7 +200,7 @@ export const addUser = (
 ) => {
   return connection
     .get<IUsers>(makeClassGroupsKey(className, schoolName))
-    .then(doc => {
+    .then((doc) => {
       const users = GOMapCRDT.fromJSON(doc.current(), context);
       users.put(
         "users/" + user.group + "/" + user.email,
@@ -212,7 +214,7 @@ export const addUser = (
         getNewUsersCRDTasJSON(context)
       )
     )
-    .then(doc => {
+    .then((doc) => {
       const users = GOMapCRDT.fromJSON(doc.current(), context);
       users.put("users/" + user.email, LWWRegister.create(user, context));
       doc.update(users.toJSONObj(context));
@@ -229,7 +231,7 @@ export const deleteUser = (
 ) =>
   connection
     .get(makeClassGroupsKey(className, schoolName))
-    .then(doc => {
+    .then((doc) => {
       const users = GOMapCRDT.fromJSON(doc.current(), context);
       users.put(
         "users/" + user.group + "/" + stringAsKey(user.email),
@@ -239,7 +241,7 @@ export const deleteUser = (
       return doc.save();
     })
     .then(() => connection.get<IUsers>(makeUsersIndexKey()))
-    .then(doc => {
+    .then((doc) => {
       const users = GOMapCRDT.fromJSON(doc.current(), context);
       users.put(
         "users/" + stringAsKey(user.email),

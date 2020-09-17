@@ -30,7 +30,7 @@ import {
   MenuItem,
   Select,
   Theme,
-  Toolbar
+  Toolbar,
 } from "@material-ui/core";
 import AppBar from "@material-ui/core/AppBar/AppBar";
 import React from "react";
@@ -41,7 +41,7 @@ import SpreadSheet from "../../Model/SpreadSheet";
 import {
   decreasePrecisionAction,
   editCellsAction,
-  increasePrecisionAction
+  increasePrecisionAction,
 } from "../Common/Actions/SpreadSheetActions";
 
 import ClassNames from "classnames";
@@ -64,19 +64,19 @@ const cellMenuStyle = makeStyles((theme: Theme) =>
     appBar: {
       bottom: 0,
       flexGrow: 1,
-      top: "auto"
+      top: "auto",
     },
     formControl: {
       margin: theme.spacing(1),
-      minWidth: 120
+      minWidth: 120,
     },
     selectEmpty: {
-      marginTop: theme.spacing(2)
+      marginTop: theme.spacing(2),
     },
 
     conflicting: {
-      backgroundColor: "rgba(255,242,0,0.53)"
-    }
+      backgroundColor: "rgba(255,242,0,0.53)",
+    },
   })
 );
 
@@ -86,7 +86,7 @@ const ActiveMenuInner = ({
   spreadSheet,
   increasePrecision,
   editCells,
-  decreasePrecision
+  decreasePrecision,
 }: ActiveMenuProps) => {
   const cellRefs =
     spreadSheet && spreadSheet.contains(activeCell.row, activeCell.column)
@@ -100,8 +100,8 @@ const ActiveMenuInner = ({
         column: activeCell.column,
         row: activeCell.row,
         type: cellRefs[keys[event.target.value as number]]!.type,
-        value: cellRefs[keys[event.target.value as number]]!.value
-      }
+        value: cellRefs[keys[event.target.value as number]]!.value,
+      },
     ]);
   };
   // If all values arew empty automatically save
@@ -150,7 +150,7 @@ const mapDispatchToProps = (
     {
       decreasePrecision: decreasePrecisionAction,
       editCells: editCellsAction,
-      increasePrecision: increasePrecisionAction
+      increasePrecision: increasePrecisionAction,
     },
     dispatch
   );

@@ -1,18 +1,18 @@
 /**
  * MIT License
- * 
+ *
  * Copyright (c) 2020, Concordant and contributors
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -36,8 +36,8 @@ import AddIcon from "@material-ui/icons/Add";
 import GridOnIcon from "@material-ui/icons/GridOn";
 import StopIcon from "@material-ui/icons/Stop";
 import React from "react";
-import {styles} from "../Common/Styles/Styles";
-import {WhiteboardProps} from "./Whiteboard";
+import { styles } from "../Common/Styles/Styles";
+import { WhiteboardProps } from "./Whiteboard";
 
 export const FloatingAddButton = (props: WhiteboardProps) => {
   const classes = styles();
@@ -56,7 +56,13 @@ export const FloatingAddButton = (props: WhiteboardProps) => {
 
   return (
     <Box>
-      <Fab aria-label={"label"} aria-describedby={id} onClick={handleClick} className={classes.fab} color={"primary"}>
+      <Fab
+        aria-label={"label"}
+        aria-describedby={id}
+        onClick={handleClick}
+        className={classes.fab}
+        color={"primary"}
+      >
         <AddIcon />
       </Fab>
       <Popper id={id} open={open} anchorEl={anchorEl}>

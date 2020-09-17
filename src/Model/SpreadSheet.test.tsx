@@ -26,7 +26,7 @@ import {
   PartialOrder,
   VectorClock,
   VectorClockContext,
-  WallClockTimestamp
+  WallClockTimestamp,
 } from "concordant-crdtlib";
 import { ICell, ICellInput } from "../Components/Common/Types/SpreadSheetTypes";
 import SpreadSheet from "./SpreadSheet";
@@ -49,7 +49,7 @@ describe("SpreadSheet Tests", () => {
 
   it("empty spreadsheet", () => {
     const cells: ICellInput[] = [
-      { row: 0, column: 0, value: "v", type: "string" }
+      { row: 0, column: 0, value: "v", type: "string" },
     ];
     spreadSheet.put(cells);
     const view = spreadSheet.makeSpreadSheetView();
@@ -62,7 +62,7 @@ describe("SpreadSheet Tests", () => {
     const nRows = 10;
     const nCols = 10;
     const cells: ICellInput[] = [
-      { row: nRows, column: nCols, value: "v", type: "string" }
+      { row: nRows, column: nCols, value: "v", type: "string" },
     ];
     spreadSheet.put(cells);
     const view = spreadSheet.makeSpreadSheetView();
@@ -79,7 +79,7 @@ describe("SpreadSheet Tests", () => {
     const nRows = 1;
     const nCols = 10;
     const cells: ICellInput[] = [
-      { row: nRows, column: nCols, value: "v", type: "string" }
+      { row: nRows, column: nCols, value: "v", type: "string" },
     ];
     spreadSheet.put(cells);
     spreadSheet.addColumn(0);
@@ -91,7 +91,7 @@ describe("SpreadSheet Tests", () => {
     const nRows = 1;
     const nCols = 10;
     const cells: ICellInput[] = [
-      { row: nRows, column: nCols, value: "v", type: "string" }
+      { row: nRows, column: nCols, value: "v", type: "string" },
     ];
     spreadSheet.put(cells);
     spreadSheet.addRow(SpreadSheetView.DEFAULT_ROWS + 1);

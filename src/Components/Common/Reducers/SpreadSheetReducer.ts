@@ -38,7 +38,7 @@ import {
   ICellInput,
   INCREASE_PRECISION,
   SPREADSHEET_SUBSCRIPTION,
-  UPDATE_SHEET
+  UPDATE_SHEET,
 } from "../Types/SpreadSheetTypes";
 
 interface IInternalState extends ISpreadSheetState {
@@ -47,7 +47,7 @@ interface IInternalState extends ISpreadSheetState {
 
 const initialState: IInternalState = {
   spreadSheet: undefined,
-  spreadSheetView: new SpreadSheetView()
+  spreadSheetView: new SpreadSheetView(),
 };
 
 // TODO: avoid copying spreadSheetView.
@@ -100,7 +100,7 @@ export function SpreadSheetReducer(
             row: state.activeEditCell.row,
             rowId: "local",
             type: state.activeEditCell.type,
-            value: state.activeEditCell.value || ""
+            value: state.activeEditCell.value || "",
           };
         } else {
           // If remote propagation, and if the user is currently editing a cell,
@@ -115,7 +115,7 @@ export function SpreadSheetReducer(
         ...state,
         document,
         spreadSheet,
-        spreadSheetView: newSpreadSheetView
+        spreadSheetView: newSpreadSheetView,
       };
     }
     case ADD_COLUMN: {
@@ -161,7 +161,7 @@ export function SpreadSheetReducer(
       return {
         ...state,
         editBarValue /* , spreadSheetView: emptyOrCloneSpreadSheet() */,
-        activeEditCell: undefined
+        activeEditCell: undefined,
       };
     }
     case INCREASE_PRECISION: {
@@ -194,7 +194,7 @@ export function SpreadSheetReducer(
       return {
         ...state,
         editBarValue: "",
-        spreadSheetView: emptyOrCloneSpreadSheet()
+        spreadSheetView: emptyOrCloneSpreadSheet(),
       };
     }
     case ACTIVATE_CELL: {
@@ -221,7 +221,7 @@ export function SpreadSheetReducer(
         column === activeCell.column
       ) {
         return {
-          ...state
+          ...state,
         };
       }
       if (
@@ -233,7 +233,7 @@ export function SpreadSheetReducer(
         return {
           ...state,
           activeCell: action.payload,
-          editBarValue: value || ""
+          editBarValue: value || "",
         };
       }
       return state;
@@ -281,7 +281,7 @@ export function SpreadSheetReducer(
           row: state.activeCell.row,
           rowId: "local",
           type,
-          value
+          value,
         };
       } else {
         // TODO: Why not changing the type also?
@@ -295,8 +295,8 @@ export function SpreadSheetReducer(
         activeEditCell: {
           ...state.activeCell,
           type,
-          value
-        }
+          value,
+        },
       };
     }
     case SPREADSHEET_SUBSCRIPTION: {

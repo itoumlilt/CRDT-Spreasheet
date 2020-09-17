@@ -28,7 +28,7 @@ import {
   ICell,
   ICellId,
   ICellViewRender,
-  ISpreadSheetView
+  ISpreadSheetView,
 } from "../Common/Types/SpreadSheetTypes";
 import { IUser } from "../Common/Types/UserTypes";
 import { stringAsKey } from "../Common/Utils";
@@ -161,7 +161,7 @@ export const cellIdFromIdString = (id: string): ICellId => {
     numbers: tokens
       .slice(1, tokens.length - 1)
       .map((n: any) => parseInt(n, 10)),
-    row: tokens[0] === "R"
+    row: tokens[0] === "R",
   };
 };
 
@@ -182,7 +182,7 @@ export const newCell = (
   return {
     id: uuid(),
     type,
-    value
+    value,
   };
 };
 
@@ -203,7 +203,7 @@ export const makeCellRenderObj = (
     return {
       key: cell.id,
       ...props,
-      value: processValue(cell.value, spreadSheet)
+      value: processValue(cell.value, spreadSheet),
     };
   }
   return null;

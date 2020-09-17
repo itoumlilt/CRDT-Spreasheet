@@ -26,7 +26,7 @@ import {
   GOMapCRDT,
   PartialOrder,
   VectorClock,
-  WallClockTimestamp
+  WallClockTimestamp,
 } from "concordant-crdtlib";
 import { Connection, Document } from "concordant-server";
 import { SpreadSheetCRDT } from "../Components/Common/Types/AppTypes";
@@ -44,7 +44,7 @@ export class SpreadSheetRepository {
 
   public getSpreadSheet(id: string): Promise<SpreadSheet> {
     return this.getSpreadSheetDocument(id).then(
-      doc =>
+      (doc) =>
         new SpreadSheet(
           GOMapCRDT.fromJSON(doc.current(), this.context),
           this.context

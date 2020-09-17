@@ -32,32 +32,32 @@ export const CLEAR_USER_PANEL_FILTERS = "clear_user_panel_filters";
 
 export const getSchoolsAction = (schools: string[]): ISetSchoolsAction => ({
   payload: { schools },
-  type: GET_SCHOOLS
+  type: GET_SCHOOLS,
 });
 
 export const getClassesAction = (classes: IClass[]): IGetClassesAction => ({
   payload: { classes },
-  type: GET_CLASSES
+  type: GET_CLASSES,
 });
 
 export const getUsersAction = (users: IUser[]): IGetUsersAction => ({
   payload: { users },
-  type: GET_USERS
+  type: GET_USERS,
 });
 
 export const setSchoolAction = (filteredSchool: string): ISetSchoolAction => ({
   payload: { filteredSchool },
-  type: SET_SCHOOL
+  type: SET_SCHOOL,
 });
 
 export const setClassAction = (filteredClass: string): ISetClassAction => ({
   payload: { filteredClass },
-  type: SET_CLASS
+  type: SET_CLASS,
 });
 
 export const clearUserPanelFiltersAction = (): IClearUserPanelFiltersAction => ({
   payload: {},
-  type: CLEAR_USER_PANEL_FILTERS
+  type: CLEAR_USER_PANEL_FILTERS,
 });
 
 export interface ISetSchoolsAction {
