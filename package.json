@@ -10,6 +10,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "coverage": "CI=true npm test -- --coverage",
     "eject": "react-scripts eject",
     "pretty-quick": "pretty-quick"
   },
@@ -83,6 +84,7 @@
   },
   "jest": {
     "coverageReporters": [
+      "text",
       "json",
       "html"
     ]
