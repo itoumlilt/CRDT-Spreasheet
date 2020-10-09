@@ -29,7 +29,7 @@ import {
   WallClock,
   WallClockTimestamp,
 } from "concordant-crdtlib";
-import { Connection, Document } from "concordant-server";
+import { Connection, Document } from "concordant-service";
 import {
   IElementState,
   Whiteboard,

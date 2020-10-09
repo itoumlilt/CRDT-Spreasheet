@@ -51,7 +51,7 @@ import GridOnIcon from "@material-ui/icons/GridOn";
 import HowToReg from "@material-ui/icons/HowToReg";
 import MenuIcon from "@material-ui/icons/Menu";
 import { WallClockTimeContext } from "concordant-crdtlib";
-import { Connection } from "concordant-server";
+import { Connection } from "concordant-service";
 import React from "react";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";

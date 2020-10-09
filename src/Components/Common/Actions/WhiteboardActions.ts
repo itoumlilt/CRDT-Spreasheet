@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import { DatabaseEventEmitter } from "concordant-server/dist/Database/Interfaces/Types";
+import { DatabaseEventEmitter } from "concordant-service/dist/Database/Interfaces/Types";
 import { WHITEBOARD_SUBSCRIPTION } from "../Types/WhiteboardTypes";
 import {
   DELETE_ELEMENTS,

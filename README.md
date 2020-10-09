@@ -4,15 +4,15 @@
 [![pipeline status](https://gitlab.inria.fr/concordant/software/c-labbook/badges/master/pipeline.svg)](https://gitlab.inria.fr/concordant/software/c-labbook/-/commits/master)
 [![coverage report](https://gitlab.inria.fr/concordant/software/c-labbook/badges/master/coverage.svg)](https://gitlab.inria.fr/concordant/software/c-labbook/-/commits/master)
 
-This demo shows a collaborative application developed using a draft implementation
-of the Concordant API. The application uses the C-Server API (it will be
-moved to the C-Service API after validation by the team) which currently supports
-two eventual consistency backends: revision-based and CRDT-based.
-This demo shows that with a revision based approach, the user loses updates, either
-if updates are executed concurrently online, or if multiple users edit the
-document offline. To have an adequate semantics, the user needs to provide custom,
-non-trivial, code to merge the updates executed by each user.
-With the CRDT-based backend, update convergence is available out-of-the-box.
+This demo shows a collaborative application developed using a draft
+implementation of the Concordant API. The application uses the C-Service API
+which currently supports two eventual consistency backends: revision-based and
+CRDT-based. This demo shows that with a revision based approach, the user
+loses updates, either if updates are executed concurrently online, or if
+multiple users edit the document offline. To have an adequate semantics, the
+user needs to provide custom, non-trivial, code to merge the updates executed
+by each user. With the CRDT-based backend, update convergence is available
+out-of-the-box.
 
 The current demo is implemented on top of PouchDB which offers replication and
 offline support. Later we will implement our backed without any

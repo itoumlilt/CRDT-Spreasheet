@@ -29,7 +29,7 @@ import {
   StateCRDT,
   Timestamp,
 } from "concordant-crdtlib";
-import { Document } from "concordant-server";
+import { Document } from "concordant-service";
 
 export const stringAsKey = (s: string) =>
   s.replace(/\s/g, "").replace(" ", "_");

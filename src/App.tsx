@@ -31,7 +31,7 @@ import {
   WallClockTimeContext,
   WallClockTimestamp,
 } from "concordant-crdtlib";
-import { Connection, PouchDBDataSource } from "concordant-server";
+import { Connection, PouchDBDataSource } from "concordant-service";
 import PouchDBImpl from "pouchdb";
 import memory from "pouchdb-adapter-memory";
 import React, { useEffect, useState } from "react";

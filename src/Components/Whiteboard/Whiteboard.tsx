@@ -27,7 +27,7 @@ import {
   VectorClockContext,
   WallClockTimestamp,
 } from "concordant-crdtlib";
-import { Connection, DatabaseHooks, Document } from "concordant-server";
+import { Connection, DatabaseHooks, Document } from "concordant-service";
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { Action, bindActionCreators } from "redux";

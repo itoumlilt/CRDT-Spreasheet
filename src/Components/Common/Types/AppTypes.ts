@@ -27,7 +27,7 @@ import {
   VectorClock,
   WallClockTimestamp,
 } from "concordant-crdtlib";
-import { DatabaseEventEmitter, Document } from "concordant-server";
+import { DatabaseEventEmitter, Document } from "concordant-service";
 import SpreadSheetModel from "../../../Model/SpreadSheet";
 import SpreadSheetView from "../../../Model/SpreadSheetView";
 import { ActiveCell } from "./SpreadSheetTypes";

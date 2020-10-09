@@ -23,8 +23,8 @@
  */
 import { Color } from "@material-ui/lab";
 import { VectorClockContext, WallClockTimestamp } from "concordant-crdtlib";
-import { Connection, Database } from "concordant-server";
-import { DatabaseEventEmitter } from "concordant-server/dist/Database/Interfaces/Types";
+import { Connection, Database } from "concordant-service";
+import { DatabaseEventEmitter } from "concordant-service/dist/Database/Interfaces/Types";
 import { SpreadSheetDocument } from "../Types/AppTypes";
 import {
   ACTIVATE_CELL,

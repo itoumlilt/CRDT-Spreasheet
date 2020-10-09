@@ -35,7 +35,7 @@
     ]
   },
   "dependencies": {
-    "c-server": "git+ssh://git@gitlab.inria.fr/concordant/software/c-server.git"
+    "concordant-service": "git+ssh://git@gitlab.inria.fr/concordant/software/c-service.git"
   },
   "devDependencies": {
     "@material-ui/core": "^4.11.0",
@@ -54,7 +54,7 @@
     "classnames": "^2.2.6",
     "clsx": "^1.1.1",
     "concordant-crdtlib": "git+ssh://git@gitlab.inria.fr/concordant/software/concordant-crdtlib.git",
-    "concordant-server": "git+ssh://git@gitlab.inria.fr/concordant/software/c-server.git",
+    "concordant-service": "git+ssh://git@gitlab.inria.fr/concordant/software/c-service.git",
     "delta-crdts": "^0.10.3",
     "delta-crdts-msgpack-codec": "^0.2.0",
     "eslint": "^7.7.0",
