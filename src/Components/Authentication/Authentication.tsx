@@ -23,7 +23,7 @@
  */
 import { Box, Button, Container, TextField } from "@material-ui/core";
 import { WallClockTimeContext } from "concordant-crdtlib";
-import { Connection } from "concordant-server";
+import { Connection } from "concordant-service";
 import React, { useState } from "react";
 import { getUsers } from "../../Repository/UserRepository";
 import {

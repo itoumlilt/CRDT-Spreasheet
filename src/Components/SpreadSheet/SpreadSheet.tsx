@@ -27,7 +27,7 @@ import {
   Connection,
   DatabaseEventEmitter,
   DatabaseHooks,
-} from "concordant-server";
+} from "concordant-service";
 import _ from "lodash";
 import React, { useEffect } from "react";
 import { connect } from "react-redux";

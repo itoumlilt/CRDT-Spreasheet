@@ -29,7 +29,7 @@ import {
   WallClock,
   WallClockTimestamp,
 } from "concordant-crdtlib";
-import { Connection } from "concordant-server";
+import { Connection } from "concordant-service";
 import { IClass, IUser } from "../Components/Common/Types/UserTypes";
 import { stringAsKey } from "../Components/Common/Utils";
 

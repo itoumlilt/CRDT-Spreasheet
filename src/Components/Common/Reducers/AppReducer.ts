@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 import { Color } from "@material-ui/lab";
-import { Database } from "concordant-server";
+import { Database } from "concordant-service";
 import { AppActionTypes } from "../Actions/AppActions";
 import {
   AuthActionTypes,

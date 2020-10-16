@@ -30,7 +30,7 @@ import {
 } from "@material-ui/core";
 import Select from "@material-ui/core/Select";
 import { WallClockTimeContext } from "concordant-crdtlib";
-import { Connection } from "concordant-server";
+import { Connection } from "concordant-service";
 import MaterialTable, { Column } from "material-table";
 import React, { useEffect } from "react";
 import { connect } from "react-redux";

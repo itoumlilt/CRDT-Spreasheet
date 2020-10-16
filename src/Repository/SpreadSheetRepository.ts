@@ -28,7 +28,7 @@ import {
   VectorClock,
   WallClockTimestamp,
 } from "concordant-crdtlib";
-import { Connection, Document } from "concordant-server";
+import { Connection, Document } from "concordant-service";
 import { SpreadSheetCRDT } from "../Components/Common/Types/AppTypes";
 import SpreadSheet from "../Model/SpreadSheet";
 
