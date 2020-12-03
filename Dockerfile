@@ -4,7 +4,7 @@
 #   id_rsa : unencrypted (passwordless) SSH key file for Git access
 # Then delete intermediate image :
 #   docker rmi -f $(docker images -q --filter label=stage=builder)
-FROM node:latest as builder
+FROM node:14.15.1 as builder
 LABEL stage=builder
 
 # could use gitlab access token with
