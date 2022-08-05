@@ -1,9 +1,9 @@
 {
-  "name": "concordant-labbook",
+  "name": "crdt-spreadsheet",
   "version": "0.2.0",
   "license": "MIT",
-  "author": "Ilyas Toumlilt <ilyas.toumlilt@concordant.io>",
-  "description": "BASF Demo app. A master app that puts together the Spreadsheet and Notepad.",
+  "author": "Ilyas Toumlilt <ilyas@toumlilt.com>",
+  "description": "CRDT Demo app. A master app that puts together the Spreadsheet and Notepad.",
   "homepage": "/",
   "private": true,
   "scripts": {
@@ -17,10 +17,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@gitlab.inria.fr/concordant/software/c-labbook.git"
+    "url": "git+ssh://git@github.com:itoumlilt/CRDT-Spreasheet.git"
   },
   "bugs": {
-    "url": "https://gitlab.inria.fr/concordant/software/c-labbook/-/issues"
+    "url": "https://git@github.com:itoumlilt/CRDT-Spreasheet/-/issues"
   },
   "browserslist": {
     "production": [
